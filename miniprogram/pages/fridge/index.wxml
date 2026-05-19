@@ -1,0 +1,36 @@
+<view class="page-shell">
+  <view class="tab-row">
+    <view
+      wx:for="{{tabs}}"
+      wx:key="key"
+      class="tab-item {{activeTab === item.key ? 'active' : ''}}"
+      data-key="{{item.key}}"
+      bindtap="changeTab"
+    >
+      {{item.label}}
+    </view>
+  </view>
+
+  <view class="card list-card" wx:for="{{items}}" wx:key="id">
+    <view class="item-head">
+      <view>
+        <view class="item-name">{{item.name}}</view>
+        <view class="item-meta">{{item.category}} · {{item.quantity}}{{item.unit}}</view>
+      </view>
+      <view class="badge {{item.reminderState}}">{{item.reminderState}}</view>
+    </view>
+    <view class="section-desc">到期时间：{{item.expiresAt || '未填写'}} · 位置：{{item.location || '未填写'}}</view>
+    <view class="action-strip">
+      <button class="ghost-btn mini-btn" data-id="{{item.id}}" bindtap="editItem">编辑</button>
+      <button class="ghost-btn mini-btn" data-id="{{item.id}}" bindtap="consumeItem">消耗</button>
+      <button class="ghost-btn mini-btn danger-btn" data-id="{{item.id}}" bindtap="discardItem">丢弃</button>
+    </view>
+  </view>
+
+  <view wx:if="{{!items.length}}" class="card empty-card">
+    <view class="section-title">冰箱还空着</view>
+    <view class="section-desc">先录入几样食材，把家庭库存体系跑起来。</view>
+  </view>
+
+  <button class="primary-btn floating-btn" bindtap="createItem">新增库存</button>
+</view>

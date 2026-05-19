@@ -1,0 +1,53 @@
+<view class="page-shell">
+  <view class="card status-card" wx:if="{{loading}}">
+    <view class="section-title">正在加载家庭主页</view>
+    <view class="section-desc">我们在同步家庭信息和库存概览。</view>
+  </view>
+
+  <view class="card status-card" wx:if="{{errorText && !loading}}">
+    <view class="section-title">页面没完全加载出来</view>
+    <view class="section-desc">{{errorText}}</view>
+    <button class="ghost-btn retry-btn" bindtap="retryLoad">重新加载</button>
+  </view>
+
+  <view class="card home-head" wx:if="{{family}}">
+    <view class="family-name">{{family.familyName}}</view>
+    <view class="section-desc">邀请码：{{family.inviteCode}}</view>
+    <view class="members">
+      <view class="member" wx:for="{{family.members}}" wx:key="userId">
+        <view class="member-name">{{item.nickname}}</view>
+        <view class="member-role">{{item.role}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="card status-card" wx:if="{{!family && !loading}}">
+    <view class="section-title">还没有家庭信息</view>
+    <view class="section-desc">如果刚刚创建成功，点一下重新加载，我们会把家庭信息再拉一遍。</view>
+    <button class="ghost-btn retry-btn" bindtap="retryLoad">重新加载</button>
+  </view>
+
+  <view class="summary-grid">
+    <view class="card summary-card">
+      <view class="metric">{{summary.total}}</view>
+      <view class="metric-label">库存总数</view>
+    </view>
+    <view class="card summary-card warning">
+      <view class="metric">{{summary.expiringSoon}}</view>
+      <view class="metric-label">即将过期</view>
+    </view>
+    <view class="card summary-card danger">
+      <view class="metric">{{summary.expired}}</view>
+      <view class="metric-label">已经过期</view>
+    </view>
+  </view>
+
+  <view class="card quick-actions">
+    <view class="section-title">家庭工作台</view>
+    <view class="action-row">
+      <button class="primary-btn action" bindtap="goFridge">查看冰箱</button>
+      <button class="secondary-btn action" bindtap="goIngredients">家庭食材</button>
+    </view>
+    <button class="ghost-btn subscribe-btn" bindtap="subscribeReminder">开启过期提醒</button>
+  </view>
+</view>

@@ -1,0 +1,18 @@
+<view class="page-shell family-page">
+  <view class="card banner">
+    <view class="section-title">把家人连进同一个生活空间</view>
+    <view class="section-desc">一期先把家庭、冰箱库存和过期提醒跑通，后面我们再继续接菜谱和记账。</view>
+  </view>
+
+  <view class="card panel">
+    <view class="label">创建一个新家庭</view>
+    <input class="input" placeholder="例如：张家厨房" value="{{familyName}}" bindinput="onFamilyNameInput" />
+    <button class="primary-btn action-btn" loading="{{creating}}" bindtap="createFamily">创建家庭</button>
+  </view>
+
+  <view class="card panel">
+    <view class="label">输入邀请码加入家庭</view>
+    <input class="input" placeholder="输入 6 位邀请码" maxlength="6" value="{{inviteCode}}" bindinput="onInviteCodeInput" />
+    <button class="secondary-btn action-btn" loading="{{joining}}" bindtap="joinFamily">加入家庭</button>
+  </view>
+</view>

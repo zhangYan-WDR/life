@@ -1,0 +1,24 @@
+.create-btn {
+  margin-top: 24rpx;
+}
+
+.list-section {
+  margin-top: 24rpx;
+}
+
+.tag-list {
+  margin-top: 20rpx;
+}
+
+.tag-card {
+  padding: 18rpx 20rpx;
+  background: #f8fafc;
+  border-radius: 16rpx;
+  margin-bottom: 14rpx;
+  color: #475569;
+}
+
+.tag-card.family {
+  background: #eff6ff;
+  color: #1d4ed8;
+}

@@ -1,0 +1,17 @@
+.family-page {
+  background:
+    radial-gradient(circle at top left, rgba(16, 185, 129, 0.14), transparent 30%),
+    linear-gradient(180deg, #f6faf8 0%, #f3f5f7 100%);
+}
+
+.banner {
+  margin-bottom: 24rpx;
+}
+
+.panel {
+  margin-bottom: 24rpx;
+}
+
+.action-btn {
+  margin-top: 24rpx;
+}

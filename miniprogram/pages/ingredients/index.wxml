@@ -1,0 +1,27 @@
+<view class="page-shell">
+  <view class="card">
+    <view class="section-title">新增家庭食材</view>
+    <input class="input" placeholder="食材名称" value="{{form.name}}" data-field="name" bindinput="onFieldInput" />
+    <input class="input" placeholder="分类，例如：蔬菜" value="{{form.category}}" data-field="category" bindinput="onFieldInput" />
+    <input class="input" placeholder="默认单位，例如：个 / 克" value="{{form.defaultUnit}}" data-field="defaultUnit" bindinput="onFieldInput" />
+    <button class="primary-btn create-btn" bindtap="createIngredient">保存家庭食材</button>
+  </view>
+
+  <view class="card list-section">
+    <view class="section-title">家庭自定义</view>
+    <view class="tag-list">
+      <view class="tag-card family" wx:for="{{familyIngredients}}" wx:key="id">
+        {{item.name}} · {{item.category}} · {{item.defaultUnit}}
+      </view>
+    </view>
+  </view>
+
+  <view class="card list-section">
+    <view class="section-title">系统预置</view>
+    <view class="tag-list">
+      <view class="tag-card" wx:for="{{systemIngredients}}" wx:key="id">
+        {{item.name}} · {{item.category}} · {{item.defaultUnit}}
+      </view>
+    </view>
+  </view>
+</view>
