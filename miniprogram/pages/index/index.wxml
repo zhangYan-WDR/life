@@ -1,0 +1,64 @@
+<view class="container">
+  <image class="bg" src="./bg.png"></image>
+
+  <view class="main-container" style="padding-top: {{totalHeight}}px;">
+    <!-- <image class="logo" src="./logo-zh.png"></image> -->
+    <view class="logo">
+      <image class="logo-img" src="./logo.png"></image>
+      <view class="logo-title">虚拟背景&美颜美妆</view>
+    </view>
+    <view class="describe">
+      在小程序中快速调用虚拟背景和美颜美妆能力，呈现更好的视频效果，支持14天免费调试体验。
+    </view>
+    <view class="card-box" style="margin-top: 76rpx;">
+      <view class="card">
+        <image
+          class="card-img"
+          src="https://webar-static.tencent-cloud.com/assets/template/beauty-main.png"
+        ></image>
+        <view class="card-desc">
+          <image
+            class="card-desc-img"
+            src="https://webar-static.tencent-cloud.com/assets/template/beauty-icon.svg"
+          ></image>
+          <view class="card-desc-txt">
+            美颜美妆
+          </view>
+        </view>
+      </view>
+
+      <view class="card card-right">
+        <view class="card-title">美颜特效</view>
+        <view class="card-txt">支持拍摄和直播推流场景，包含美颜美妆、滤镜和趣味贴纸能力</view>
+        <view class="card-button" id="custom" bind:tap="goDemo">
+          立即体验
+        </view>
+      </view>
+    </view>
+    <view class="card-box">
+      <view class="card">
+        <image
+          class="card-img"
+          src="https://webar-static.tencent-cloud.com/assets/template/virtual-back.png"
+        ></image>
+        <view class="card-desc">
+          <image
+            class="card-desc-img"
+            src="https://webar-static.tencent-cloud.com/assets/template/background-icon.svg"
+          ></image>
+          <view class="card-desc-txt">
+            背景替换
+          </view>
+        </view>
+      </view>
+
+      <view class="card card-right">
+        <view class="card-title">虚拟背景</view>
+        <view class="card-txt">支持直播推流场景，包含基本美颜、前景贴纸以及虚拟背景能力</view>
+        <view class="card-button" id="native" bind:tap="goDemo">
+          立即体验
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,10 @@
+.DS_Store
+__MACOSX/
+node_modules/
+miniprogram/node_modules/
+project.private.config.json
+
+# Local environment and secret files
+.env
+.env.*
+*.local
