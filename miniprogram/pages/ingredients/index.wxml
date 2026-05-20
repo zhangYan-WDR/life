@@ -1,26 +1,55 @@
-<view class="page-shell">
-  <view class="card">
-    <view class="section-title">新增家庭食材</view>
-    <input class="input" placeholder="食材名称" value="{{form.name}}" data-field="name" bindinput="onFieldInput" />
-    <input class="input" placeholder="分类，例如：蔬菜" value="{{form.category}}" data-field="category" bindinput="onFieldInput" />
-    <input class="input" placeholder="默认单位，例如：个 / 克" value="{{form.defaultUnit}}" data-field="defaultUnit" bindinput="onFieldInput" />
-    <button class="primary-btn create-btn" bindtap="createIngredient">保存家庭食材</button>
+<view class="page-shell page-enter ingredients-page">
+  <!-- 新增表单 -->
+  <view class="form-section">
+    <view class="group-header">
+      <view class="group-bar"></view>
+      <text class="group-title">新增家庭食材</text>
+    </view>
+    <view class="form-card">
+      <view class="field">
+        <view class="field-label">食材名称</view>
+        <input class="field-input" placeholder="例如：番茄" value="{{form.name}}" data-field="name" bindinput="onFieldInput" />
+      </view>
+      <view class="field-divider"></view>
+      <view class="field">
+        <view class="field-label">分类</view>
+        <input class="field-input" placeholder="例如：蔬菜" value="{{form.category}}" data-field="category" bindinput="onFieldInput" />
+      </view>
+      <view class="field-divider"></view>
+      <view class="field">
+        <view class="field-label">默认单位</view>
+        <input class="field-input" placeholder="例如：个 / 克" value="{{form.defaultUnit}}" data-field="defaultUnit" bindinput="onFieldInput" />
+      </view>
+    </view>
+    <button class="primary-btn save-btn" bindtap="createIngredient">保存家庭食材</button>
   </view>
 
-  <view class="card list-section">
-    <view class="section-title">家庭自定义</view>
-    <view class="tag-list">
-      <view class="tag-card family" wx:for="{{familyIngredients}}" wx:key="id">
-        {{item.name}} · {{item.category}} · {{item.defaultUnit}}
+  <!-- 家庭自定义 -->
+  <view class="list-section" wx:if="{{familyIngredients.length}}">
+    <view class="group-header">
+      <view class="group-bar family-bar"></view>
+      <text class="group-title">家庭自定义</text>
+      <text class="group-count">{{familyIngredients.length}} 项</text>
+    </view>
+    <view class="tag-grid">
+      <view class="tag-capsule family-tag" wx:for="{{familyIngredients}}" wx:key="id">
+        <text class="tag-name">{{item.name}}</text>
+        <text class="tag-info">{{item.defaultUnit}}</text>
       </view>
     </view>
   </view>
 
-  <view class="card list-section">
-    <view class="section-title">系统预置</view>
-    <view class="tag-list">
-      <view class="tag-card" wx:for="{{systemIngredients}}" wx:key="id">
-        {{item.name}} · {{item.category}} · {{item.defaultUnit}}
+  <!-- 系统预置 -->
+  <view class="list-section">
+    <view class="group-header">
+      <view class="group-bar system-bar"></view>
+      <text class="group-title">系统预置</text>
+      <text class="group-count">{{systemIngredients.length}} 项</text>
+    </view>
+    <view class="tag-grid">
+      <view class="tag-capsule system-tag" wx:for="{{systemIngredients}}" wx:key="id">
+        <text class="tag-name">{{item.name}}</text>
+        <text class="tag-info">{{item.defaultUnit}}</text>
       </view>
     </view>
   </view>

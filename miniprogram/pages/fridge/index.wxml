@@ -1,36 +1,84 @@
-<view class="page-shell">
-  <view class="tab-row">
+<view class="page-shell page-enter fridge-page">
+  <!-- Tab 栏 -->
+  <view class="tab-bar">
     <view
       wx:for="{{tabs}}"
       wx:key="key"
-      class="tab-item {{activeTab === item.key ? 'active' : ''}}"
+      class="tab-item {{activeTab === item.key ? 'tab-active' : ''}}"
       data-key="{{item.key}}"
       bindtap="changeTab"
     >
-      {{item.label}}
+      <text>{{item.label}}</text>
+      <view class="tab-indicator" wx:if="{{activeTab === item.key}}"></view>
     </view>
   </view>
 
-  <view class="card list-card" wx:for="{{items}}" wx:key="id">
-    <view class="item-head">
-      <view>
-        <view class="item-name">{{item.name}}</view>
-        <view class="item-meta">{{item.category}} · {{item.quantity}}{{item.unit}}</view>
+  <!-- 加载态 -->
+  <view class="loading-hint" wx:if="{{loading}}">
+    <view class="dot-pulse"></view>
+    <text class="loading-text">正在加载库存…</text>
+  </view>
+
+  <!-- 列表 -->
+  <view class="item-list" wx:if="{{!loading}}">
+    <view
+      class="item-card"
+      wx:for="{{items}}"
+      wx:key="id"
+    >
+      <view class="card-accent {{item.statusCls}}"></view>
+      <view class="card-body" data-id="{{item.id}}" bindtap="editItem">
+        <view class="card-top">
+          <view class="card-info">
+            <view class="item-name">{{item.name}}</view>
+            <view class="item-detail">
+              <text class="detail-text">{{item.quantity}}{{item.unit}}</text>
+              <text class="detail-dot" wx:if="{{item.category}}">·</text>
+              <text class="detail-text" wx:if="{{item.category}}">{{item.category}}</text>
+            </view>
+          </view>
+          <view class="status-badge {{item.statusCls}}">{{item.statusLabel}}</view>
+        </view>
+        <view class="card-meta">
+          <view class="meta-item" wx:if="{{item.expiresAt}}">
+            <text class="meta-label">到期</text>
+            <text class="meta-value">{{item.expiresAt}}</text>
+          </view>
+          <view class="meta-item" wx:if="{{item.location}}">
+            <text class="meta-label">位置</text>
+            <text class="meta-value">{{item.location}}</text>
+          </view>
+        </view>
       </view>
-      <view class="badge {{item.reminderState}}">{{item.reminderState}}</view>
-    </view>
-    <view class="section-desc">到期时间：{{item.expiresAt || '未填写'}} · 位置：{{item.location || '未填写'}}</view>
-    <view class="action-strip">
-      <button class="ghost-btn mini-btn" data-id="{{item.id}}" bindtap="editItem">编辑</button>
-      <button class="ghost-btn mini-btn" data-id="{{item.id}}" bindtap="consumeItem">消耗</button>
-      <button class="ghost-btn mini-btn danger-btn" data-id="{{item.id}}" bindtap="discardItem">丢弃</button>
+      <view class="card-actions">
+        <view class="action-btn consume-btn" data-id="{{item.id}}" catchtap="consumeItem">
+          <text>消耗</text>
+        </view>
+        <view class="action-divider"></view>
+        <view class="action-btn discard-btn" data-id="{{item.id}}" catchtap="discardItem">
+          <text>丢弃</text>
+        </view>
+      </view>
     </view>
   </view>
 
-  <view wx:if="{{!items.length}}" class="card empty-card">
-    <view class="section-title">冰箱还空着</view>
-    <view class="section-desc">先录入几样食材，把家庭库存体系跑起来。</view>
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{!loading && !items.length}}">
+    <view class="empty-icon">
+      <view class="empty-fridge"></view>
+      <view class="empty-snowflake sf1"></view>
+      <view class="empty-snowflake sf2"></view>
+      <view class="empty-snowflake sf3"></view>
+    </view>
+    <view class="empty-title">冰箱还空着呢</view>
+    <view class="empty-desc">录入几样食材，开始管理家庭库存吧</view>
   </view>
 
-  <button class="primary-btn floating-btn" bindtap="createItem">新增库存</button>
+  <!-- FAB 新增按钮 -->
+  <view class="fab" bindtap="createItem">
+    <view class="fab-icon">+</view>
+  </view>
+
+  <!-- FAB 占位 -->
+  <view class="fab-spacer"></view>
 </view>

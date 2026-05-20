@@ -1,18 +1,47 @@
-<view class="page-shell family-page">
-  <view class="card banner">
-    <view class="section-title">把家人连进同一个生活空间</view>
-    <view class="section-desc">一期先把家庭、冰箱库存和过期提醒跑通，后面我们再继续接菜谱和记账。</view>
+<view class="page-shell page-enter family-page">
+  <view class="family-hero">
+    <view class="hero-tag">共享生活空间</view>
+    <view class="hero-title">把冰箱、菜谱和记账放进同一个家里</view>
+    <view class="hero-subtitle">先建一个家庭，之后每个成员看到的库存、提醒和日常记录都会同步在一起。</view>
   </view>
 
-  <view class="card panel">
-    <view class="label">创建一个新家庭</view>
-    <input class="input" placeholder="例如：张家厨房" value="{{familyName}}" bindinput="onFamilyNameInput" />
-    <button class="primary-btn action-btn" loading="{{creating}}" bindtap="createFamily">创建家庭</button>
+  <view class="tab-shell">
+    <view class="tab-switch">
+      <view class="tab-pill {{activeTab === 'create' ? 'tab-pill-active' : ''}}" data-tab="create" bindtap="switchTab">创建家庭</view>
+      <view class="tab-pill {{activeTab === 'join' ? 'tab-pill-active' : ''}}" data-tab="join" bindtap="switchTab">输入邀请码</view>
+    </view>
   </view>
 
-  <view class="card panel">
-    <view class="label">输入邀请码加入家庭</view>
-    <input class="input" placeholder="输入 6 位邀请码" maxlength="6" value="{{inviteCode}}" bindinput="onInviteCodeInput" />
-    <button class="secondary-btn action-btn" loading="{{joining}}" bindtap="joinFamily">加入家庭</button>
+  <view class="form-panel" wx:if="{{activeTab === 'create'}}">
+    <view class="panel-top">
+      <view class="panel-title">新建一个温暖的小家</view>
+      <view class="panel-desc">你会成为家庭创建者，可以把邀请码分享给家人一起加入。</view>
+    </view>
+    <view class="field-label">家庭名称</view>
+    <input class="family-input" placeholder="例如：晚饭作战室" value="{{familyName}}" bindinput="onFamilyNameInput" />
+    <button class="form-btn create-btn" loading="{{creating}}" bindtap="createFamily">创建并进入家庭</button>
+  </view>
+
+  <view class="form-panel" wx:if="{{activeTab === 'join'}}">
+    <view class="panel-top">
+      <view class="panel-title">加入现有家庭</view>
+      <view class="panel-desc">输入家人分享的邀请码，你就会进入同一个生活面板。</view>
+    </view>
+    <view class="field-label">邀请码</view>
+    <input class="family-input code-input" placeholder="输入 6 位邀请码" maxlength="6" value="{{inviteCode}}" bindinput="onInviteCodeInput" />
+    <button class="form-btn join-btn" loading="{{joining}}" bindtap="joinFamily">加入这个家庭</button>
+  </view>
+
+  <view class="feature-strip">
+    <view class="feature-card">
+      <view class="feature-emoji">📦</view>
+      <view class="feature-title">共享库存</view>
+      <view class="feature-text">谁买了什么、什么快过期，一眼就能看到。</view>
+    </view>
+    <view class="feature-card">
+      <view class="feature-emoji">🍳</view>
+      <view class="feature-title">厨房协作</view>
+      <view class="feature-text">后面会继续接菜谱、做饭计划和记账。</view>
+    </view>
   </view>
 </view>

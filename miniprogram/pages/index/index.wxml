@@ -1,7 +1,89 @@
-<view class="page-shell launch-page">
-  <view class="hero card">
-    <view class="hero-title">家常日记</view>
-    <view class="hero-desc">{{error || message}}</view>
-    <button wx:if="{{error}}" class="primary-btn retry-btn" bindtap="retry">重新尝试</button>
+<view class="splash-page">
+  <!-- 背景光晕 -->
+  <view class="bg-glow bg-glow-1"></view>
+  <view class="bg-glow bg-glow-2"></view>
+  <view class="bg-glow bg-glow-3"></view>
+
+  <!-- 温馨场景 -->
+  <view class="scene {{sceneReady ? 'scene-in' : ''}}">
+    <!-- 窗户 -->
+    <view class="window">
+      <view class="window-glass window-glass-l"></view>
+      <view class="window-glass window-glass-r"></view>
+      <view class="window-bar-h"></view>
+      <view class="window-bar-v"></view>
+      <view class="window-light"></view>
+    </view>
+    <view class="curtain curtain-l"></view>
+    <view class="curtain curtain-r"></view>
+
+    <!-- 吊灯 -->
+    <view class="lamp-wire"></view>
+    <view class="lamp-shade"></view>
+    <view class="lamp-bulb"></view>
+    <view class="lamp-glow"></view>
+
+    <!-- 桌子 -->
+    <view class="table"></view>
+    <view class="table-leg table-leg-l"></view>
+    <view class="table-leg table-leg-r"></view>
+
+    <!-- 餐盘与食物 -->
+    <view class="plate plate-l">
+      <view class="food-circle food-l"></view>
+    </view>
+    <view class="plate plate-r">
+      <view class="food-circle food-r"></view>
+    </view>
+
+    <!-- 咖啡杯 -->
+    <view class="mug">
+      <view class="mug-handle"></view>
+      <view class="steam s1"></view>
+      <view class="steam s2"></view>
+      <view class="steam s3"></view>
+    </view>
+
+    <!-- 花瓶 -->
+    <view class="vase">
+      <view class="flower f1"></view>
+      <view class="flower f2"></view>
+      <view class="stem st1"></view>
+      <view class="stem st2"></view>
+    </view>
+
+    <!-- 小猫 -->
+    <view class="cat">
+      <view class="cat-body"></view>
+      <view class="cat-tail"></view>
+      <view class="cat-head">
+        <view class="ear ear-l"></view>
+        <view class="ear ear-r"></view>
+        <view class="eye eye-l"></view>
+        <view class="eye eye-r"></view>
+        <view class="nose"></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 文案 -->
+  <view class="text-area {{sceneReady ? 'text-in' : ''}}">
+    <view class="app-title">家常日记</view>
+    <view class="app-tagline">把每一天的柴米油盐</view>
+    <view class="app-tagline">变成温暖的家庭记忆</view>
+  </view>
+
+  <!-- 底部按钮 -->
+  <view class="btn-area {{sceneReady ? 'btn-in' : ''}}">
+    <view class="error-msg" wx:if="{{error}}">{{error}}</view>
+
+    <button wx:if="{{error}}" class="splash-btn retry-btn" bindtap="retry">
+      重新尝试
+    </button>
+    <button wx:else class="splash-btn" loading="{{loading}}" disabled="{{loading}}" bindtap="enterNextStep">
+      {{buttonText}}
+    </button>
+
+    <view class="footer-slogan">用心记录，让家更有温度</view>
   </view>
 </view>

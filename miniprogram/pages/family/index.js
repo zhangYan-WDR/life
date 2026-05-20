@@ -8,6 +8,13 @@ Page({
     inviteCode: "",
     creating: false,
     joining: false,
+    activeTab: "create",
+  },
+
+  switchTab(e) {
+    this.setData({
+      activeTab: e.currentTarget.dataset.tab,
+    });
   },
 
   onFamilyNameInput(e) {

@@ -1,33 +1,85 @@
-<view class="page-shell">
-  <view class="card">
-    <view class="label">选择食材</view>
-    <picker range="{{catalog}}" range-key="name" value="{{sourceIndex}}" bindchange="onSourceChange">
-      <view class="input picker">{{catalog[sourceIndex] ? catalog[sourceIndex].name : '请选择食材'}}</view>
-    </picker>
-    <button class="ghost-btn helper-btn" bindtap="goIngredients">先去维护家庭食材</button>
-
-    <view class="label top-gap">数量</view>
-    <input class="input" type="digit" value="{{quantity}}" data-field="quantity" bindinput="onFieldInput" />
-
-    <view class="label top-gap">单位</view>
-    <input class="input" value="{{unit}}" data-field="unit" bindinput="onFieldInput" />
-
-    <view class="label top-gap">生产日期</view>
-    <picker mode="date" value="{{producedAt}}" data-field="producedAt" bindchange="onDateChange">
-      <view class="input picker">{{producedAt || '请选择生产日期'}}</view>
-    </picker>
-
-    <view class="label top-gap">到期日期</view>
-    <picker mode="date" value="{{expiresAt}}" data-field="expiresAt" bindchange="onDateChange">
-      <view class="input picker">{{expiresAt || '请选择到期日期'}}</view>
-    </picker>
-
-    <view class="label top-gap">存放位置</view>
-    <input class="input" placeholder="例如：冷藏上层" value="{{location}}" data-field="location" bindinput="onFieldInput" />
-
-    <view class="label top-gap">备注</view>
-    <input class="input" placeholder="可记录品牌、口味等" value="{{note}}" data-field="note" bindinput="onFieldInput" />
-
-    <button class="primary-btn save-btn" bindtap="saveItem">保存库存</button>
+<view class="page-shell page-enter edit-page">
+  <!-- 食材信息 -->
+  <view class="form-group">
+    <view class="group-header">
+      <view class="group-bar"></view>
+      <text class="group-title">食材信息</text>
+    </view>
+    <view class="form-card">
+      <view class="field">
+        <view class="field-label">选择食材</view>
+        <picker range="{{catalog}}" range-key="name" value="{{sourceIndex}}" bindchange="onSourceChange">
+          <view class="field-picker">
+            <text class="picker-text {{catalog[sourceIndex] ? '' : 'placeholder'}}">{{catalog[sourceIndex] ? catalog[sourceIndex].name : '请选择食材'}}</text>
+            <text class="picker-arrow">›</text>
+          </view>
+        </picker>
+      </view>
+      <view class="field-link" bindtap="goIngredients">
+        <text>找不到？去维护家庭食材</text>
+        <text class="link-arrow">›</text>
+      </view>
+      <view class="field-row">
+        <view class="field field-half">
+          <view class="field-label">数量</view>
+          <input class="field-input" type="digit" value="{{quantity}}" data-field="quantity" bindinput="onFieldInput" placeholder="1" />
+        </view>
+        <view class="field field-half">
+          <view class="field-label">单位</view>
+          <input class="field-input" value="{{unit}}" data-field="unit" bindinput="onFieldInput" placeholder="个" />
+        </view>
+      </view>
+    </view>
   </view>
+
+  <!-- 日期信息 -->
+  <view class="form-group">
+    <view class="group-header">
+      <view class="group-bar"></view>
+      <text class="group-title">日期信息</text>
+    </view>
+    <view class="form-card">
+      <view class="field">
+        <view class="field-label">生产日期</view>
+        <picker mode="date" value="{{producedAt}}" data-field="producedAt" bindchange="onDateChange">
+          <view class="field-picker">
+            <text class="picker-text {{producedAt ? '' : 'placeholder'}}">{{producedAt || '请选择生产日期'}}</text>
+            <text class="picker-arrow">›</text>
+          </view>
+        </picker>
+      </view>
+      <view class="field-divider"></view>
+      <view class="field">
+        <view class="field-label">到期日期</view>
+        <picker mode="date" value="{{expiresAt}}" data-field="expiresAt" bindchange="onDateChange">
+          <view class="field-picker">
+            <text class="picker-text {{expiresAt ? '' : 'placeholder'}}">{{expiresAt || '请选择到期日期'}}</text>
+            <text class="picker-arrow">›</text>
+          </view>
+        </picker>
+      </view>
+    </view>
+  </view>
+
+  <!-- 存放信息 -->
+  <view class="form-group">
+    <view class="group-header">
+      <view class="group-bar"></view>
+      <text class="group-title">存放信息</text>
+    </view>
+    <view class="form-card">
+      <view class="field">
+        <view class="field-label">存放位置</view>
+        <input class="field-input" placeholder="例如：冷藏上层" value="{{location}}" data-field="location" bindinput="onFieldInput" />
+      </view>
+      <view class="field-divider"></view>
+      <view class="field">
+        <view class="field-label">备注</view>
+        <input class="field-input" placeholder="可记录品牌、口味等" value="{{note}}" data-field="note" bindinput="onFieldInput" />
+      </view>
+    </view>
+  </view>
+
+  <!-- 保存按钮 -->
+  <button class="primary-btn save-btn" bindtap="saveItem">保存库存</button>
 </view>

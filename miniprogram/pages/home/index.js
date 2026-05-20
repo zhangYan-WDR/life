@@ -12,6 +12,9 @@ Page({
     },
     loading: true,
     errorText: "",
+    memberCount: 0,
+    welcomeTitle: "今晚家里一切安稳",
+    displayMembers: [],
   },
 
   onLoad() {
@@ -19,6 +22,9 @@ Page({
     if (cachedFamily) {
       this.setData({
         family: cachedFamily,
+        memberCount: (cachedFamily.members || []).length,
+        welcomeTitle: this.buildWelcomeTitle(cachedFamily),
+        displayMembers: this.buildDisplayMembers(cachedFamily.members || []),
       });
     }
   },
@@ -36,6 +42,9 @@ Page({
       const family = await request({ url: "/families/current" });
       this.setData({
         family,
+        memberCount: (family.members || []).length,
+        welcomeTitle: this.buildWelcomeTitle(family),
+        displayMembers: this.buildDisplayMembers(family.members || []),
       });
       localStorage.setItem("life_current_family", family);
     } catch (error) {
@@ -59,6 +68,22 @@ Page({
         loading: false,
       });
     }
+  },
+
+  buildWelcomeTitle(family) {
+    const count = (family.members || []).length;
+    if (count <= 1) {
+      return "一个人的生活面板，也可以很有秩序";
+    }
+    return `${family.familyName} 现在有 ${count} 位成员在线协作`;
+  },
+
+  buildDisplayMembers(members) {
+    return members.map((item) => ({
+      ...item,
+      initial: item.nickname ? item.nickname.slice(0, 1) : "家",
+      roleLabel: item.role === "OWNER" ? "创建者" : "成员",
+    }));
   },
 
   goFridge() {

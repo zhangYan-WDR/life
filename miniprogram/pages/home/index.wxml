@@ -1,53 +1,103 @@
-<view class="page-shell">
+<view class="page-shell page-enter home-page">
+  <view class="home-gradient"></view>
+
+  <!-- 加载态 -->
   <view class="card status-card" wx:if="{{loading}}">
     <view class="section-title">正在加载家庭主页</view>
     <view class="section-desc">我们在同步家庭信息和库存概览。</view>
   </view>
 
+  <!-- 错误态 -->
   <view class="card status-card" wx:if="{{errorText && !loading}}">
     <view class="section-title">页面没完全加载出来</view>
     <view class="section-desc">{{errorText}}</view>
     <button class="ghost-btn retry-btn" bindtap="retryLoad">重新加载</button>
   </view>
 
-  <view class="card home-head" wx:if="{{family}}">
-    <view class="family-name">{{family.familyName}}</view>
-    <view class="section-desc">邀请码：{{family.inviteCode}}</view>
-    <view class="members">
-      <view class="member" wx:for="{{family.members}}" wx:key="userId">
-        <view class="member-name">{{item.nickname}}</view>
-        <view class="member-role">{{item.role}}</view>
+  <!-- Hero 面板 -->
+  <view class="hero-panel" wx:if="{{family}}">
+    <view class="hero-glass">
+      <view class="hero-eyebrow">家庭主页</view>
+      <view class="family-name">{{family.familyName}}</view>
+      <view class="hero-desc">{{welcomeTitle}}</view>
+      <view class="invite-bar">
+        <view class="invite-left">
+          <view class="invite-label">邀请码</view>
+          <view class="invite-code">{{family.inviteCode}}</view>
+        </view>
+        <view class="invite-hint">分享给家人即可加入</view>
       </view>
     </view>
   </view>
 
+  <!-- 空家庭 -->
   <view class="card status-card" wx:if="{{!family && !loading}}">
     <view class="section-title">还没有家庭信息</view>
-    <view class="section-desc">如果刚刚创建成功，点一下重新加载，我们会把家庭信息再拉一遍。</view>
+    <view class="section-desc">如果刚刚创建成功，点一下重新加载。</view>
     <button class="ghost-btn retry-btn" bindtap="retryLoad">重新加载</button>
   </view>
 
-  <view class="summary-grid">
-    <view class="card summary-card">
-      <view class="metric">{{summary.total}}</view>
-      <view class="metric-label">库存总数</view>
+  <!-- 库存摘要 1+2 布局 -->
+  <view class="summary-section">
+    <view class="summary-big">
+      <view class="summary-big-left">
+        <view class="summary-number">{{summary.total}}</view>
+        <view class="summary-unit">项食材</view>
+      </view>
+      <view class="summary-big-label">当前在家里的库存总量</view>
     </view>
-    <view class="card summary-card warning">
-      <view class="metric">{{summary.expiringSoon}}</view>
-      <view class="metric-label">即将过期</view>
-    </view>
-    <view class="card summary-card danger">
-      <view class="metric">{{summary.expired}}</view>
-      <view class="metric-label">已经过期</view>
+    <view class="summary-row">
+      <view class="summary-small warn-card">
+        <view class="small-number warn-num">{{summary.expiringSoon}}</view>
+        <view class="small-label">即将过期</view>
+        <view class="small-hint">建议优先安排</view>
+      </view>
+      <view class="summary-small danger-card">
+        <view class="small-number danger-num">{{summary.expired}}</view>
+        <view class="small-label">已经过期</view>
+        <view class="small-hint">记得尽快处理</view>
+      </view>
     </view>
   </view>
 
-  <view class="card quick-actions">
-    <view class="section-title">家庭工作台</view>
-    <view class="action-row">
-      <button class="primary-btn action" bindtap="goFridge">查看冰箱</button>
-      <button class="secondary-btn action" bindtap="goIngredients">家庭食材</button>
+  <!-- 家庭成员 -->
+  <view class="section-panel" wx:if="{{displayMembers.length}}">
+    <view class="panel-header">
+      <view class="section-title">家庭成员</view>
+      <view class="section-desc">{{memberCount}} 位成员</view>
     </view>
-    <button class="ghost-btn subscribe-btn" bindtap="subscribeReminder">开启过期提醒</button>
+    <view class="members">
+      <view class="member-card" wx:for="{{displayMembers}}" wx:key="userId">
+        <view class="member-avatar">{{item.initial}}</view>
+        <view class="member-meta">
+          <view class="member-name">{{item.nickname}}</view>
+          <view class="member-role">{{item.roleLabel}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 工作台 -->
+  <view class="section-panel">
+    <view class="panel-header">
+      <view class="section-title">家庭工作台</view>
+    </view>
+    <view class="action-grid">
+      <view class="action-card action-fridge" bindtap="goFridge">
+        <view class="action-emoji">🧊</view>
+        <view class="action-content">
+          <view class="action-title">冰箱库存</view>
+          <view class="action-text">新增食材、查看过期、记录消耗</view>
+        </view>
+      </view>
+      <view class="action-card action-ingredients" bindtap="goIngredients">
+        <view class="action-emoji">🥬</view>
+        <view class="action-content">
+          <view class="action-title">家庭食材</view>
+          <view class="action-text">维护食材名称和默认单位</view>
+        </view>
+      </view>
+    </view>
+    <button class="ghost-btn subscribe-btn" bindtap="subscribeReminder">🔔 开启过期提醒</button>
   </view>
 </view>
