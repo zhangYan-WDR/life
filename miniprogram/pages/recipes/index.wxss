@@ -1,0 +1,419 @@
+.recipes-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+  padding-bottom: 0;
+}
+
+/* ===== Hero 头卡 ===== */
+.hero-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  padding: 32rpx;
+  border-radius: 28rpx;
+  background: linear-gradient(135deg, #ffd8b8 0%, #f5b888 50%, #e89060 100%);
+  color: #ffffff;
+  overflow: hidden;
+  box-shadow: 0 12rpx 32rpx rgba(208, 130, 80, 0.2);
+}
+
+.hero-decor {
+  width: 96rpx;
+  height: 96rpx;
+  flex-shrink: 0;
+  border-radius: 24rpx;
+  background: rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-emoji {
+  font-size: 56rpx;
+}
+
+.hero-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.hero-eyebrow {
+  font-size: 22rpx;
+  letter-spacing: 4rpx;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.hero-title {
+  margin-top: 10rpx;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #4a2818;
+}
+
+.hero-text {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: rgba(74, 40, 24, 0.7);
+  line-height: 1.6;
+}
+
+/* ===== 随机推荐卡 ===== */
+.random-card {
+  padding: 28rpx;
+  border-radius: 28rpx;
+  background: linear-gradient(160deg, #fff8ed 0%, #fff0d6 60%, #ffe4bd 100%);
+  box-shadow: 0 8rpx 24rpx rgba(208, 130, 60, 0.12);
+  border: 2rpx solid rgba(232, 144, 96, 0.15);
+  animation: randomCardIn 0.4s ease;
+}
+
+.random-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.random-label {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  font-size: 24rpx;
+  color: #b07050;
+  font-weight: 500;
+}
+
+.dice-icon {
+  font-size: 30rpx;
+  animation: diceShake 2.5s ease-in-out infinite;
+  display: inline-block;
+}
+
+.random-close {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  line-height: 44rpx;
+  font-size: 32rpx;
+  color: #8a7058;
+  transition: transform 0.15s ease;
+}
+
+.random-close:active {
+  transform: scale(0.9);
+}
+
+.random-name {
+  margin-top: 14rpx;
+  font-size: 44rpx;
+  font-weight: 700;
+  color: #4a2818;
+}
+
+.random-meta {
+  display: flex;
+  gap: 12rpx;
+  margin-top: 14rpx;
+}
+
+.meta-chip {
+  padding: 6rpx 16rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, 0.65);
+  font-size: 22rpx;
+  color: #8d603e;
+}
+
+.random-actions {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 14rpx;
+  margin-top: 22rpx;
+}
+
+.random-btn {
+  width: 100%;
+  margin: 0;
+}
+
+/* ===== 快捷操作 ===== */
+.quick-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 14rpx;
+}
+
+.quick-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  padding: 22rpx 24rpx;
+  border-radius: 22rpx;
+  background: #ffffff;
+  box-shadow: 0 6rpx 20rpx rgba(120, 80, 50, 0.05);
+  transition: transform 0.15s ease;
+}
+
+.quick-btn:active {
+  transform: scale(0.98);
+}
+
+.quick-primary {
+  background: linear-gradient(135deg, #e07850 0%, #d05a3a 100%);
+}
+
+.quick-primary .qb-title,
+.quick-primary .qb-text {
+  color: #ffffff;
+}
+
+.quick-primary .qb-text {
+  opacity: 0.85;
+}
+
+.quick-primary .qb-icon {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+.quick-second {
+  background: linear-gradient(135deg, #fff8ee 0%, #ffead0 100%);
+}
+
+.quick-plan {
+  background: #faf7f3;
+  opacity: 0.95;
+}
+
+.qb-icon {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 18rpx;
+  background: rgba(208, 90, 58, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  color: #d05a3a;
+  flex-shrink: 0;
+}
+
+.qb-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.qb-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #3a2820;
+}
+
+.qb-text {
+  margin-top: 4rpx;
+  font-size: 22rpx;
+  color: #8a7568;
+}
+
+.qb-tag {
+  flex-shrink: 0;
+  padding: 4rpx 12rpx;
+  border-radius: 999rpx;
+  background: #ece4dc;
+  color: #9a8478;
+  font-size: 20rpx;
+}
+
+/* ===== 列表区 ===== */
+.list-section {
+  margin-top: 4rpx;
+}
+
+.group-header {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 16rpx;
+}
+
+.group-bar {
+  width: 6rpx;
+  height: 28rpx;
+  border-radius: 3rpx;
+  background: linear-gradient(180deg, #e8845a, #d4603e);
+}
+
+.group-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #4a3828;
+}
+
+.group-count {
+  margin-left: auto;
+  font-size: 22rpx;
+  color: #b0a090;
+}
+
+/* 加载态 */
+.loading-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60rpx 0;
+  gap: 16rpx;
+}
+
+.dot-pulse {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  background: #d4a080;
+  animation: dotPulse 1.2s ease-in-out infinite;
+}
+
+.loading-text {
+  font-size: 24rpx;
+  color: #b0978a;
+}
+
+/* 菜谱列表 */
+.recipe-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14rpx;
+}
+
+.recipe-card {
+  display: flex;
+  gap: 20rpx;
+  padding: 20rpx;
+  border-radius: 22rpx;
+  background: #ffffff;
+  box-shadow: 0 6rpx 20rpx rgba(120, 80, 50, 0.05);
+  transition: transform 0.18s ease;
+}
+
+.recipe-card:active {
+  transform: scale(0.98);
+}
+
+.recipe-cover {
+  width: 110rpx;
+  height: 110rpx;
+  flex-shrink: 0;
+  border-radius: 18rpx;
+  background: linear-gradient(135deg, #fff4e6 0%, #ffe0c0 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.recipe-emoji {
+  font-size: 52rpx;
+}
+
+.recipe-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.recipe-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12rpx;
+}
+
+.recipe-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #3a2820;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recipe-badge {
+  flex-shrink: 0;
+  padding: 4rpx 12rpx;
+  border-radius: 999rpx;
+  background: #fff2e6;
+  color: #c46c3a;
+  font-size: 20rpx;
+}
+
+.recipe-note {
+  margin-top: 6rpx;
+  font-size: 24rpx;
+  color: #8a7568;
+  line-height: 1.5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.recipe-meta {
+  margin-top: 8rpx;
+}
+
+.meta-mini {
+  font-size: 22rpx;
+  color: #a0907e;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60rpx 0;
+}
+
+.empty-emoji {
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+  opacity: 0.6;
+}
+
+.empty-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #5a4a40;
+}
+
+.empty-desc {
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  color: #a0907e;
+}
+
+.fab-spacer {
+  height: 40rpx;
+}
+
+/* ===== 动画 ===== */
+@keyframes randomCardIn {
+  from { opacity: 0; transform: translateY(-8rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes diceShake {
+  0%, 90%, 100% { transform: rotate(0deg); }
+  93% { transform: rotate(-15deg); }
+  96% { transform: rotate(15deg); }
+}
+
+@keyframes dotPulse {
+  0%, 100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.5); opacity: 1; }
+}

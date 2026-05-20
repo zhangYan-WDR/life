@@ -77,6 +77,24 @@
     </view>
   </view>
 
+  <!-- 点餐待办 -->
+  <view class="section-panel" wx:if="{{pendingMealRequests.length}}">
+    <view class="panel-header">
+      <view class="section-title">待我处理的点餐</view>
+      <view class="section-desc">{{pendingMealRequests.length}} 条待办</view>
+    </view>
+    <view class="pending-list">
+      <view class="pending-card" wx:for="{{pendingMealRequests}}" wx:key="id" data-id="{{item.id}}" bindtap="openMealRequest">
+        <view class="pending-top">
+          <view class="pending-title">{{item.title}}</view>
+          <view class="pending-badge">待表态</view>
+        </view>
+        <view class="pending-meta">来自 {{item.requesterName}}</view>
+        <view class="pending-recipes">{{item.recipeNamesText}}</view>
+      </view>
+    </view>
+  </view>
+
   <!-- 工作台 -->
   <view class="section-panel">
     <view class="panel-header">
@@ -97,7 +115,38 @@
           <view class="action-text">维护食材名称和默认单位</view>
         </view>
       </view>
+      <view class="action-card action-recipes" bindtap="goRecipes">
+        <view class="action-emoji">🍳</view>
+        <view class="action-content">
+          <view class="action-title">菜谱库</view>
+          <view class="action-text">手动建菜谱，维护食材和步骤</view>
+        </view>
+      </view>
+      <view class="action-card action-meals" bindtap="goMealRequests">
+        <view class="action-emoji">📝</view>
+        <view class="action-content">
+          <view class="action-title">点餐单</view>
+          <view class="action-text">发起点餐、全员表态、保留历史</view>
+        </view>
+      </view>
     </view>
-    <button class="ghost-btn subscribe-btn" bindtap="subscribeReminder">🔔 开启过期提醒</button>
+    <view class="quick-grid">
+      <view class="quick-card" bindtap="chooseTonight">
+        <view class="quick-title">今晚吃什么</view>
+        <view class="quick-text">随机给一道菜，再决定点不点</view>
+      </view>
+      <view class="quick-card quick-plan" data-type="receipt" bindtap="showPlannedFeature">
+        <view class="quick-title">小票识别入冰箱</view>
+        <view class="quick-text">规划中，先走手动新增</view>
+      </view>
+      <view class="quick-card quick-plan" data-type="recipe" bindtap="showPlannedFeature">
+        <view class="quick-title">图片识别存菜谱</view>
+        <view class="quick-text">规划中，先走手动建菜谱</view>
+      </view>
+    </view>
+    <view class="subscribe-row">
+      <button class="ghost-btn subscribe-btn" bindtap="subscribeReminder">🔔 开启过期提醒</button>
+      <button class="ghost-btn subscribe-btn" bindtap="subscribeMealReminder">📮 开启点餐提醒</button>
+    </view>
   </view>
 </view>

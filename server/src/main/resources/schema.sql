@@ -123,3 +123,73 @@ ON DUPLICATE KEY UPDATE
     default_unit = VALUES(default_unit),
     enabled = VALUES(enabled),
     sort_order = VALUES(sort_order);
+
+CREATE TABLE IF NOT EXISTS recipes (
+    id BIGINT PRIMARY KEY,
+    family_id BIGINT NOT NULL,
+    name VARCHAR(64) NOT NULL,
+    base_servings DECIMAL(10, 2) NOT NULL,
+    instructions TEXT,
+    note VARCHAR(255) DEFAULT NULL,
+    status VARCHAR(16) NOT NULL,
+    created_by BIGINT NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    KEY idx_recipe_family_status (family_id, status)
+);
+
+CREATE TABLE IF NOT EXISTS recipe_ingredients (
+    id BIGINT PRIMARY KEY,
+    recipe_id BIGINT NOT NULL,
+    source_type VARCHAR(16) NOT NULL,
+    source_id BIGINT DEFAULT NULL,
+    name_snapshot VARCHAR(64) NOT NULL,
+    category_snapshot VARCHAR(64) NOT NULL,
+    quantity DECIMAL(10, 2) NOT NULL,
+    unit VARCHAR(16) NOT NULL,
+    sort_order INT NOT NULL DEFAULT 0,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    KEY idx_recipe_ingredients_recipe (recipe_id, sort_order)
+);
+
+CREATE TABLE IF NOT EXISTS meal_requests (
+    id BIGINT PRIMARY KEY,
+    family_id BIGINT NOT NULL,
+    requester_user_id BIGINT NOT NULL,
+    title VARCHAR(128) NOT NULL,
+    note VARCHAR(255) DEFAULT NULL,
+    status VARCHAR(16) NOT NULL,
+    requested_at DATETIME NOT NULL,
+    decided_at DATETIME DEFAULT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    KEY idx_meal_request_family_status (family_id, status),
+    KEY idx_meal_request_requester (requester_user_id, requested_at)
+);
+
+CREATE TABLE IF NOT EXISTS meal_request_recipes (
+    id BIGINT PRIMARY KEY,
+    meal_request_id BIGINT NOT NULL,
+    recipe_id BIGINT NOT NULL,
+    recipe_name_snapshot VARCHAR(64) NOT NULL,
+    base_servings DECIMAL(10, 2) NOT NULL,
+    target_servings DECIMAL(10, 2) NOT NULL,
+    servings_multiplier DECIMAL(10, 4) NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    KEY idx_meal_request_recipe_request (meal_request_id)
+);
+
+CREATE TABLE IF NOT EXISTS meal_request_responses (
+    id BIGINT PRIMARY KEY,
+    meal_request_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    decision VARCHAR(16) NOT NULL,
+    comment VARCHAR(255) DEFAULT NULL,
+    decided_at DATETIME DEFAULT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY uk_meal_request_user (meal_request_id, user_id),
+    KEY idx_meal_response_user_decision (user_id, decision)
+);

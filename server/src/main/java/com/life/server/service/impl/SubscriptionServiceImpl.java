@@ -26,23 +26,35 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateExpiryReminder(Long userId, Boolean accepted) {
+        updateSubscription(userId, accepted, "EXPIRY");
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateMealRequestReminder(Long userId, Boolean accepted) {
+        updateSubscription(userId, accepted, "MEAL_REQUEST");
+    }
+
+    private void updateSubscription(Long userId, Boolean accepted, String templateType) {
         UserEntity user = userMapper.selectById(userId);
         if (user == null) {
             throw new BizException("用户不存在");
         }
+        boolean newEntity = false;
         ReminderSubscriptionEntity entity = reminderSubscriptionMapper.selectOne(new LambdaQueryWrapper<ReminderSubscriptionEntity>()
             .eq(ReminderSubscriptionEntity::getUserId, userId)
-            .eq(ReminderSubscriptionEntity::getTemplateType, "EXPIRY")
+            .eq(ReminderSubscriptionEntity::getTemplateType, templateType)
             .last("limit 1"));
         if (entity == null) {
             entity = new ReminderSubscriptionEntity();
             entity.setId(IdGenerator.nextId());
             entity.setUserId(userId);
-            entity.setTemplateType("EXPIRY");
+            entity.setTemplateType(templateType);
+            newEntity = true;
         }
         entity.setAccepted(accepted);
         entity.setLastAcceptedAt(Boolean.TRUE.equals(accepted) ? LocalDateTime.now() : entity.getLastAcceptedAt());
-        if (entity.getId() == null) {
+        if (newEntity) {
             reminderSubscriptionMapper.insert(entity);
         } else {
             reminderSubscriptionMapper.updateById(entity);

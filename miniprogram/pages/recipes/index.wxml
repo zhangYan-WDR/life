@@ -1,0 +1,99 @@
+<view class="page-shell page-enter recipes-page">
+  <!-- 头部 hero -->
+  <view class="hero-card">
+    <view class="hero-decor">
+      <view class="hero-emoji">🍳</view>
+    </view>
+    <view class="hero-content">
+      <view class="hero-eyebrow">家庭菜谱</view>
+      <view class="hero-title">把常做的菜沉淀下来</view>
+      <view class="hero-text">建菜谱 · 随机选菜 · 一键发起点餐</view>
+    </view>
+  </view>
+
+  <!-- 随机推荐卡 -->
+  <view class="random-card" wx:if="{{randomRecipe}}">
+    <view class="random-header">
+      <view class="random-label">
+        <text class="dice-icon">🎲</text>
+        <text>今晚不如吃</text>
+      </view>
+      <view class="random-close" bindtap="closeRandom">×</view>
+    </view>
+    <view class="random-name">{{randomRecipe.name}}</view>
+    <view class="random-meta">
+      <text class="meta-chip">{{randomRecipe.baseServings}} 人份基准</text>
+      <text class="meta-chip">{{randomRecipe.ingredients.length}} 项食材</text>
+    </view>
+    <view class="random-actions">
+      <button class="ghost-btn random-btn" bindtap="pickRandomRecipe">换一道</button>
+      <button class="primary-btn random-btn" bindtap="orderRandomRecipe">就点这个</button>
+    </view>
+  </view>
+
+  <!-- 主操作区 -->
+  <view class="quick-actions">
+    <view class="quick-btn quick-primary" bindtap="createRecipe">
+      <view class="qb-icon">＋</view>
+      <view class="qb-content">
+        <view class="qb-title">手动添加菜谱</view>
+        <view class="qb-text">把家里常做的菜记下来</view>
+      </view>
+    </view>
+    <view class="quick-btn quick-second" bindtap="pickRandomRecipe">
+      <view class="qb-icon">🎲</view>
+      <view class="qb-content">
+        <view class="qb-title">随机选一道</view>
+        <view class="qb-text">不知道吃啥？让缘分决定</view>
+      </view>
+    </view>
+    <view class="quick-btn quick-plan" bindtap="showRecipePlanner">
+      <view class="qb-icon">📷</view>
+      <view class="qb-content">
+        <view class="qb-title">图片识别存菜谱</view>
+        <view class="qb-text">规划中 · 先走手动添加</view>
+      </view>
+      <view class="qb-tag">规划中</view>
+    </view>
+  </view>
+
+  <!-- 菜谱列表 -->
+  <view class="list-section">
+    <view class="group-header">
+      <view class="group-bar"></view>
+      <text class="group-title">家庭菜谱</text>
+      <text class="group-count" wx:if="{{recipes.length}}">{{recipes.length}} 道</text>
+    </view>
+
+    <view class="loading-hint" wx:if="{{loading}}">
+      <view class="dot-pulse"></view>
+      <text class="loading-text">正在同步菜谱…</text>
+    </view>
+
+    <view class="recipe-list" wx:if="{{!loading && recipes.length}}">
+      <view class="recipe-card" wx:for="{{recipes}}" wx:key="id" data-id="{{item.id}}" bindtap="openRecipe">
+        <view class="recipe-cover">
+          <text class="recipe-emoji">🍲</text>
+        </view>
+        <view class="recipe-body">
+          <view class="recipe-head">
+            <view class="recipe-name">{{item.name}}</view>
+            <view class="recipe-badge">{{item.baseServings}}人份</view>
+          </view>
+          <view class="recipe-note">{{item.note || '还没写备注，点进去补充一下'}}</view>
+          <view class="recipe-meta">
+            <text class="meta-mini">🥬 {{item.ingredientCount}} 项食材</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="empty-state" wx:if="{{!loading && !recipes.length}}">
+      <view class="empty-emoji">📖</view>
+      <view class="empty-title">还没有菜谱</view>
+      <view class="empty-desc">先建几道家常菜，后面随机和点餐都会用得上</view>
+    </view>
+  </view>
+
+  <view class="fab-spacer"></view>
+</view>

@@ -1,0 +1,195 @@
+.meal-edit-page {
+  padding-bottom: 48rpx;
+}
+
+/* ===== 分组 ===== */
+.form-group {
+  margin-bottom: 28rpx;
+}
+
+.group-header {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 16rpx;
+}
+
+.group-bar {
+  width: 6rpx;
+  height: 28rpx;
+  border-radius: 3rpx;
+  background: linear-gradient(180deg, #e8845a 0%, #d4603e 100%);
+}
+
+.group-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #4a3828;
+}
+
+.group-count {
+  margin-left: auto;
+  font-size: 22rpx;
+  color: #b0a090;
+}
+
+/* ===== 表单卡片 ===== */
+.form-card {
+  padding: 8rpx 28rpx;
+  border-radius: 24rpx;
+  background: #ffffff;
+  box-shadow: 0 6rpx 24rpx rgba(120, 80, 50, 0.05);
+}
+
+.field {
+  padding: 20rpx 0;
+}
+
+.field-label {
+  font-size: 24rpx;
+  color: #9a8a7e;
+  margin-bottom: 12rpx;
+}
+
+.field-input {
+  width: 100%;
+  height: 80rpx;
+  padding: 0 24rpx;
+  box-sizing: border-box;
+  background: #faf7f3;
+  border: 2rpx solid transparent;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  color: #2d2118;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.field-input:focus {
+  border-color: #e0845a;
+  background: #fffcf9;
+}
+
+.field-divider {
+  height: 2rpx;
+  background: #f5efe8;
+}
+
+/* ===== 菜谱列表 ===== */
+.recipe-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14rpx;
+}
+
+.recipe-card {
+  position: relative;
+  padding: 22rpx 24rpx;
+  border-radius: 22rpx;
+  background: #ffffff;
+  box-shadow: 0 6rpx 20rpx rgba(120, 80, 50, 0.05);
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+}
+
+.recipe-card:active {
+  transform: scale(0.98);
+}
+
+.recipe-card-active {
+  background: linear-gradient(135deg, #fff6ee 0%, #ffe9d4 100%);
+  box-shadow: 0 8rpx 24rpx rgba(208, 130, 80, 0.15);
+}
+
+.recipe-card-active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 6rpx;
+  background: linear-gradient(180deg, #e8845a 0%, #d4603e 100%);
+}
+
+.recipe-head {
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+}
+
+.check-circle {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  border: 4rpx solid #d6c8bb;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.check-circle-active {
+  border-color: transparent;
+  background: linear-gradient(135deg, #e8a878 0%, #d88060 100%);
+  box-shadow: 0 4rpx 10rpx rgba(216, 128, 96, 0.4);
+}
+
+.check-mark {
+  font-size: 28rpx;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.recipe-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.recipe-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #31231d;
+}
+
+.recipe-meta {
+  margin-top: 6rpx;
+  font-size: 23rpx;
+  color: #8a7869;
+}
+
+/* ===== 份数行 ===== */
+.servings-row {
+  margin-top: 18rpx;
+  padding-top: 18rpx;
+  border-top: 2rpx dashed rgba(232, 132, 90, 0.25);
+  animation: servingsIn 0.25s ease;
+}
+
+@keyframes servingsIn {
+  from { opacity: 0; transform: translateY(-4rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== 空状态 ===== */
+.empty-recipes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60rpx 0;
+  gap: 16rpx;
+}
+
+.empty-emoji {
+  font-size: 64rpx;
+  opacity: 0.6;
+}
+
+.empty-text {
+  font-size: 24rpx;
+  color: #a0907e;
+}
+
+.save-btn {
+  margin-top: 12rpx;
+}

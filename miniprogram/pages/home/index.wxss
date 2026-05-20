@@ -276,6 +276,14 @@
   background: linear-gradient(135deg, #fff6ee 0%, #ffecda 100%);
 }
 
+.action-recipes {
+  background: linear-gradient(135deg, #f4f7ec 0%, #eaf2d9 100%);
+}
+
+.action-meals {
+  background: linear-gradient(135deg, #f8f1ff 0%, #efe2ff 100%);
+}
+
 .action-emoji {
   font-size: 44rpx;
   width: 72rpx;
@@ -311,4 +319,87 @@
 
 .retry-btn {
   margin-top: 18rpx;
+}
+
+.pending-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14rpx;
+}
+
+.pending-card {
+  padding: 22rpx;
+  border-radius: 20rpx;
+  background: linear-gradient(140deg, #fff8f1 0%, #ffefde 100%);
+}
+
+.pending-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16rpx;
+}
+
+.pending-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #39261c;
+}
+
+.pending-badge {
+  flex-shrink: 0;
+  padding: 8rpx 14rpx;
+  border-radius: 999rpx;
+  font-size: 22rpx;
+  color: #b35f2b;
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.pending-meta {
+  margin-top: 10rpx;
+  font-size: 23rpx;
+  color: #9b7e6b;
+}
+
+.pending-recipes {
+  margin-top: 8rpx;
+  font-size: 25rpx;
+  color: #5a4338;
+  line-height: 1.6;
+}
+
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 16rpx;
+  margin-top: 18rpx;
+}
+
+.quick-card {
+  padding: 22rpx 24rpx;
+  border-radius: 22rpx;
+  background: #faf7f3;
+}
+
+.quick-plan {
+  background: linear-gradient(135deg, #f6f4f0 0%, #eee7dc 100%);
+}
+
+.quick-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #34241c;
+}
+
+.quick-text {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #8a7a6e;
+  line-height: 1.6;
+}
+
+.subscribe-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16rpx;
 }

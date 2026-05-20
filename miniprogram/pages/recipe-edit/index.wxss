@@ -1,0 +1,235 @@
+.recipe-edit-page {
+  padding-bottom: 48rpx;
+}
+
+/* ===== 分组 ===== */
+.form-group {
+  margin-bottom: 28rpx;
+}
+
+.group-header {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 16rpx;
+}
+
+.group-bar {
+  width: 6rpx;
+  height: 28rpx;
+  border-radius: 3rpx;
+  background: linear-gradient(180deg, #e8845a 0%, #d4603e 100%);
+}
+
+.group-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #4a3828;
+}
+
+.group-count {
+  margin-left: auto;
+  font-size: 22rpx;
+  color: #b0a090;
+}
+
+/* ===== 表单卡片 ===== */
+.form-card {
+  padding: 8rpx 28rpx;
+  border-radius: 24rpx;
+  background: #ffffff;
+  box-shadow: 0 6rpx 24rpx rgba(120, 80, 50, 0.05);
+}
+
+.field {
+  padding: 20rpx 0;
+}
+
+.field-label {
+  font-size: 24rpx;
+  color: #9a8a7e;
+  margin-bottom: 12rpx;
+}
+
+.field-input {
+  width: 100%;
+  height: 80rpx;
+  padding: 0 24rpx;
+  box-sizing: border-box;
+  background: #faf7f3;
+  border: 2rpx solid transparent;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  color: #2d2118;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.field-input:focus {
+  border-color: #e0845a;
+  background: #fffcf9;
+}
+
+.field-textarea {
+  width: 100%;
+  min-height: 180rpx;
+  padding: 20rpx 24rpx;
+  box-sizing: border-box;
+  background: #faf7f3;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  color: #2d2118;
+  line-height: 1.7;
+}
+
+/* Picker */
+.field-picker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80rpx;
+  padding: 0 24rpx;
+  background: #faf7f3;
+  border-radius: 16rpx;
+  transition: background 0.2s ease;
+}
+
+.field-picker:active {
+  background: #f5f0ea;
+}
+
+.picker-text {
+  font-size: 28rpx;
+  color: #2d2118;
+}
+
+.picker-arrow {
+  font-size: 36rpx;
+  color: #c0b0a0;
+  font-weight: 300;
+}
+
+.field-divider {
+  height: 2rpx;
+  background: #f5efe8;
+}
+
+/* 并排 */
+.field-row {
+  display: flex;
+  gap: 20rpx;
+  padding: 0 0 20rpx;
+}
+
+.field-half {
+  flex: 1;
+  padding: 0;
+}
+
+/* ===== 食材卡片 ===== */
+.ingredient-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.ingredient-card {
+  padding: 20rpx 24rpx;
+  border-radius: 22rpx;
+  background: #ffffff;
+  box-shadow: 0 6rpx 20rpx rgba(120, 80, 50, 0.05);
+  animation: ingCardIn 0.25s ease;
+}
+
+.ing-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8rpx;
+}
+
+.ing-index {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e8a878 0%, #d88060 100%);
+  color: #ffffff;
+  text-align: center;
+  line-height: 44rpx;
+  font-size: 24rpx;
+  font-weight: 600;
+}
+
+.ing-remove {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 50%;
+  background: #faf0ec;
+  color: #c06060;
+  text-align: center;
+  line-height: 40rpx;
+  font-size: 32rpx;
+  font-weight: 300;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.ing-remove:active {
+  transform: scale(0.9);
+  background: #f5e0d8;
+}
+
+/* ===== 添加按钮 ===== */
+.add-ingredient-btn {
+  margin-top: 16rpx;
+  height: 84rpx;
+  border-radius: 20rpx;
+  background: rgba(232, 132, 90, 0.08);
+  border: 2rpx dashed rgba(232, 132, 90, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+  color: #d05a3a;
+  font-size: 26rpx;
+  font-weight: 500;
+  transition: background 0.15s ease;
+}
+
+.add-ingredient-btn:active {
+  background: rgba(232, 132, 90, 0.15);
+}
+
+.add-icon {
+  font-size: 32rpx;
+  font-weight: 300;
+}
+
+/* 跳转链接 */
+.field-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14rpx;
+  padding: 18rpx 24rpx;
+  border-radius: 16rpx;
+  background: #fff6ee;
+  color: #a36442;
+  font-size: 24rpx;
+}
+
+.field-link:active {
+  opacity: 0.7;
+}
+
+.link-arrow {
+  font-size: 28rpx;
+  font-weight: 300;
+}
+
+.save-btn {
+  margin-top: 12rpx;
+}
+
+@keyframes ingCardIn {
+  from { opacity: 0; transform: translateY(-8rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}

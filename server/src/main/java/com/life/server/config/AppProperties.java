@@ -9,6 +9,7 @@ public class AppProperties {
 
     private Auth auth = new Auth();
     private Fridge fridge = new Fridge();
+    private Ocr ocr = new Ocr();
     private Wechat wechat = new Wechat();
 
     public Auth getAuth() {
@@ -17,6 +18,10 @@ public class AppProperties {
 
     public Fridge getFridge() {
         return fridge;
+    }
+
+    public Ocr getOcr() {
+        return ocr;
     }
 
     public Wechat getWechat() {
@@ -62,6 +67,36 @@ public class AppProperties {
 
         public void setExpiringDays(int expiringDays) {
             this.expiringDays = expiringDays;
+        }
+    }
+
+    public static class Ocr {
+        private Boolean enabled;
+        private String provider;
+        private String apiKey;
+
+        public Boolean getEnabled() {
+            return enabled;
+        }
+
+        public void setEnabled(Boolean enabled) {
+            this.enabled = enabled;
+        }
+
+        public String getProvider() {
+            return provider;
+        }
+
+        public void setProvider(String provider) {
+            this.provider = provider;
+        }
+
+        public String getApiKey() {
+            return apiKey;
+        }
+
+        public void setApiKey(String apiKey) {
+            this.apiKey = apiKey;
         }
     }
 

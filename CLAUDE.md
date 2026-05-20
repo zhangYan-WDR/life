@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-"家常日记" — a WeChat Mini Program for family household collaboration, focused on shared fridge/pantry inventory management with expiry tracking and reminders. Built from a Tencent WebAR SDK template (legacy AR pages exist but are unused).
+"家常日记" — a WeChat Mini Program for family household collaboration, focused on fridge inventory, family recipes, meal voting, and reminder-style household workflows. Built from a Tencent WebAR SDK template (legacy AR pages exist but are unused).
 
 ## Architecture
 
@@ -55,7 +55,18 @@ All endpoints under `/api`:
 | GET | `/fridge/reminders/summary` | Dashboard counts |
 | GET | `/ingredients/catalog` | System + family ingredients |
 | POST | `/ingredients/family` | Add custom ingredient |
+| GET | `/recipes` | List family recipes |
+| GET | `/recipes/{id}` | Recipe detail |
+| POST | `/recipes` | Create recipe |
+| PUT | `/recipes/{id}` | Update recipe |
+| GET | `/recipes/random` | Pick a random recipe |
+| POST | `/meal-requests` | Create meal request |
+| GET | `/meal-requests?view=` | Meal request lists |
+| GET | `/meal-requests/{id}` | Meal request detail |
+| POST | `/meal-requests/{id}/respond` | Approve / reject |
+| GET | `/meal-requests/{id}/ingredient-gap` | Ingredient gap analysis |
 | POST | `/subscriptions/expiry-reminder` | Toggle reminder subscription |
+| POST | `/subscriptions/meal-request-reminder` | Toggle meal reminder subscription |
 
 ## Key Conventions
 
@@ -63,5 +74,6 @@ All endpoints under `/api`:
 - Backend request/response DTOs are separated into `dto/request/` and `dto/response/` packages.
 - Fridge items track status: ACTIVE → CONSUMED (auto when quantity reaches 0) or DISCARDED. All changes are audit-logged in `fridge_change_logs`.
 - Daily 8AM cron job (`ReminderDispatchJob`) sends WeChat subscription messages for items expiring within 3 days, with per-user per-item deduplication via `reminder_delivery_logs`.
-- Frontend pages: `index` (login/splash) → `family` (create/join) → `home` (dashboard) → `fridge` (inventory) / `ingredients` (catalog).
+- OCR service wiring is intentionally TODO-only in this phase: `ImageRecognitionService` exists as a backend placeholder, but no public OCR controller is exposed and the mini program routes users to manual flows.
+- Frontend pages: `index` (login/splash) → `family` (create/join) → `home` (dashboard) → `fridge` / `ingredients` / `recipes` / `meal-requests`.
 - Legacy AR-related pages (`camera`, `export`, `native`, `webview`) and components (`operate-list`, `slider`, `loading2`) are from the original template and not registered in `app.json`.

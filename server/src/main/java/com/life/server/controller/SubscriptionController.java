@@ -25,4 +25,10 @@ public class SubscriptionController {
         subscriptionService.updateExpiryReminder(AuthContext.getUserId(), request.getAccepted());
         return ApiResponse.success("设置成功", null);
     }
+
+    @PostMapping("/meal-request-reminder")
+    public ApiResponse<Void> updateMealRequestReminder(@Valid @RequestBody SubscriptionRequest request) {
+        subscriptionService.updateMealRequestReminder(AuthContext.getUserId(), request.getAccepted());
+        return ApiResponse.success("设置成功", null);
+    }
 }

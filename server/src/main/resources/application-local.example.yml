@@ -10,6 +10,10 @@ spring:
     password: 123456
 
 app:
+  ocr:
+    enabled: false
+    provider: TODO
+    api-key: change-me
   wechat:
     app-id: your-app-id
     app-secret: your-app-secret

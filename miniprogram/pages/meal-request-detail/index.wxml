@@ -1,0 +1,87 @@
+<view class="page-shell page-enter meal-detail-page" wx:if="{{detail}}">
+  <!-- Hero -->
+  <view class="hero-card">
+    <view class="hero-decor">
+      <view class="hero-emoji">🍽️</view>
+    </view>
+    <view class="hero-content">
+      <view class="hero-row">
+        <view class="hero-title">{{detail.title}}</view>
+        <view class="hero-status status-{{detail.statusCls}}">{{detail.statusLabel}}</view>
+      </view>
+      <view class="hero-meta">👤 发起人 · {{detail.requesterName}}</view>
+      <view class="hero-note" wx:if="{{detail.note}}">{{detail.note}}</view>
+    </view>
+  </view>
+
+  <!-- 这次点了哪些菜 -->
+  <view class="form-group">
+    <view class="group-header">
+      <view class="group-bar"></view>
+      <text class="group-title">这次点了哪些菜</text>
+      <text class="group-count">{{detail.recipes.length}} 道</text>
+    </view>
+    <view class="section-card">
+      <view class="detail-row" wx:for="{{detail.recipes}}" wx:key="recipeId">
+        <view class="ing-dot"></view>
+        <view class="detail-name">{{item.recipeName}}</view>
+        <view class="detail-value">{{item.targetServings}} 人份</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 表态 -->
+  <view class="form-group">
+    <view class="group-header">
+      <view class="group-bar"></view>
+      <text class="group-title">家庭成员表态</text>
+    </view>
+    <view class="section-card">
+      <view class="response-row" wx:for="{{detail.responses}}" wx:key="userId">
+        <view class="response-main">
+          <view class="detail-name">{{item.nickname}}</view>
+          <view class="response-comment" wx:if="{{item.comment}}">{{item.comment}}</view>
+        </view>
+        <view class="response-decision decision-{{item.decisionCls}}">{{item.decisionLabel}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 表态区 -->
+  <view class="form-group" wx:if="{{detail.currentUserPending}}">
+    <view class="group-header">
+      <view class="group-bar"></view>
+      <text class="group-title">轮到你表态了</text>
+    </view>
+    <view class="section-card respond-card">
+      <textarea class="comment-box" placeholder="可以补充一句想法，例如今天不太想吃辣" value="{{comment}}" bindinput="onCommentInput" auto-height></textarea>
+      <view class="action-row">
+        <button class="ghost-btn" data-decision="REJECTED" bindtap="respond">不同意</button>
+        <button class="primary-btn" data-decision="APPROVED" bindtap="respond">同意</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 缺料 -->
+  <view class="form-group" wx:if="{{gap && gap.items.length}}">
+    <view class="group-header">
+      <view class="group-bar"></view>
+      <text class="group-title">按冰箱核对缺料</text>
+    </view>
+    <view class="section-card">
+      <view class="gap-row" wx:for="{{gap.items}}" wx:key="name">
+        <view class="gap-head">
+          <view class="detail-name">{{item.name}}</view>
+          <view class="gap-status gap-{{item.statusCls}}">{{item.statusText}}</view>
+        </view>
+        <view class="gap-progress">
+          <view class="gap-progress-fill gap-fill-{{item.statusCls}}" style="width:{{item.fillPercent}}%"></view>
+        </view>
+        <view class="gap-meta">需要 {{item.requiredQuantity}}{{item.requiredUnit}} · 现有 {{item.availableQuantity}}{{item.availableUnit}}</view>
+        <view class="response-comment" wx:if="{{item.note}}">{{item.note}}</view>
+      </view>
+    </view>
+  </view>
+
+  <button class="ghost-btn again-btn" bindtap="createFromAgain">再发起一次类似点餐</button>
+</view>

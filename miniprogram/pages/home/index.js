@@ -10,6 +10,7 @@ Page({
       expiringSoon: 0,
       expired: 0,
     },
+    pendingMealRequests: [],
     loading: true,
     errorText: "",
     memberCount: 0,
@@ -63,6 +64,21 @@ Page({
       this.setData({
         errorText: this.data.errorText || fallbackMessage,
       });
+    }
+
+    try {
+      const pendingMealRequests = await request({ url: "/meal-requests?view=PENDING" });
+      this.setData({
+        pendingMealRequests: (pendingMealRequests || []).map((item) => ({
+          ...item,
+          recipeNamesText: (item.recipeNames || []).join("、"),
+        })),
+      });
+    } catch (error) {
+      const fallbackMessage = error.message || "点餐待办加载失败";
+      this.setData({
+        errorText: this.data.errorText || fallbackMessage,
+      });
     } finally {
       this.setData({
         loading: false,
@@ -98,6 +114,48 @@ Page({
     });
   },
 
+  goRecipes() {
+    wx.navigateTo({
+      url: "/pages/recipes/index",
+    });
+  },
+
+  goMealRequests() {
+    wx.navigateTo({
+      url: "/pages/meal-requests/index",
+    });
+  },
+
+  chooseTonight() {
+    wx.navigateTo({
+      url: "/pages/recipes/index?mode=random",
+    });
+  },
+
+  openMealRequest(e) {
+    wx.navigateTo({
+      url: `/pages/meal-request-detail/index?id=${e.currentTarget.dataset.id}`,
+    });
+  },
+
+  showPlannedFeature(e) {
+    const type = e.currentTarget.dataset.type;
+    const targetUrl = type === "receipt" ? "/pages/fridge/edit" : "/pages/recipe-edit/index";
+    wx.showModal({
+      title: "功能正在规划中",
+      content: "功能正在规划中，先用手动添加吧",
+      confirmText: "去手动添加",
+      success: (res) => {
+        if (!res.confirm) {
+          return;
+        }
+        wx.navigateTo({
+          url: targetUrl,
+        });
+      },
+    });
+  },
+
   subscribeReminder() {
     request({
       url: "/subscriptions/expiry-reminder",
@@ -105,6 +163,18 @@ Page({
       data: { accepted: true },
     }).then(() => {
       wx.showToast({ title: "已标记提醒订阅", icon: "success" });
+    }).catch((error) => {
+      wx.showToast({ title: error.message, icon: "none" });
+    });
+  },
+
+  subscribeMealReminder() {
+    request({
+      url: "/subscriptions/meal-request-reminder",
+      method: "POST",
+      data: { accepted: true },
+    }).then(() => {
+      wx.showToast({ title: "已标记点餐提醒", icon: "success" });
     }).catch((error) => {
       wx.showToast({ title: error.message, icon: "none" });
     });

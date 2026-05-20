@@ -1,0 +1,185 @@
+.recipe-detail-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+  padding-bottom: 48rpx;
+}
+
+/* ===== Hero ===== */
+.hero-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  padding: 32rpx;
+  border-radius: 28rpx;
+  background: linear-gradient(135deg, #ffd8b8 0%, #f5b888 50%, #e89060 100%);
+  color: #ffffff;
+  overflow: hidden;
+  box-shadow: 0 12rpx 32rpx rgba(208, 130, 80, 0.2);
+}
+
+.hero-decor {
+  width: 110rpx;
+  height: 110rpx;
+  flex-shrink: 0;
+  border-radius: 26rpx;
+  background: rgba(255, 255, 255, 0.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-emoji {
+  font-size: 64rpx;
+}
+
+.hero-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.hero-eyebrow {
+  font-size: 22rpx;
+  letter-spacing: 4rpx;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.hero-title {
+  margin-top: 8rpx;
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #4a2818;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 12rpx;
+  margin-top: 16rpx;
+  flex-wrap: wrap;
+}
+
+.meta-chip {
+  padding: 6rpx 16rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, 0.65);
+  font-size: 22rpx;
+  color: #8d603e;
+}
+
+/* ===== 备注卡 ===== */
+.note-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14rpx;
+  padding: 22rpx 26rpx;
+  border-radius: 22rpx;
+  background: #fff6ee;
+  border: 2rpx dashed rgba(232, 132, 90, 0.3);
+}
+
+.note-icon {
+  font-size: 28rpx;
+}
+
+.note-text {
+  flex: 1;
+  font-size: 26rpx;
+  line-height: 1.6;
+  color: #8a5d3e;
+}
+
+/* ===== 分组 ===== */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.group-header {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 16rpx;
+}
+
+.group-bar {
+  width: 6rpx;
+  height: 28rpx;
+  border-radius: 3rpx;
+  background: linear-gradient(180deg, #e8845a 0%, #d4603e 100%);
+}
+
+.group-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #4a3828;
+}
+
+.group-count {
+  margin-left: auto;
+  font-size: 22rpx;
+  color: #b0a090;
+}
+
+.section-card {
+  padding: 8rpx 28rpx;
+  border-radius: 24rpx;
+  background: #ffffff;
+  box-shadow: 0 6rpx 24rpx rgba(120, 80, 50, 0.05);
+}
+
+/* ===== 食材行 ===== */
+.ingredient-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 20rpx 0;
+  border-bottom: 2rpx solid #f5efe8;
+}
+
+.ingredient-row:last-child {
+  border-bottom: none;
+}
+
+.ing-dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e8a878 0%, #d88060 100%);
+  flex-shrink: 0;
+}
+
+.ingredient-name {
+  flex: 1;
+  font-size: 28rpx;
+  color: #2d2118;
+}
+
+.ingredient-value {
+  font-size: 26rpx;
+  color: #b07050;
+  font-weight: 500;
+}
+
+/* ===== 步骤 ===== */
+.instructions {
+  padding: 20rpx 0;
+  font-size: 28rpx;
+  line-height: 1.8;
+  color: #4a3a30;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.instructions.empty {
+  color: #b0a090;
+  font-size: 26rpx;
+}
+
+/* ===== 操作 ===== */
+.action-row {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 16rpx;
+  margin-top: 8rpx;
+}

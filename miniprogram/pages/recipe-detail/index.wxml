@@ -1,0 +1,51 @@
+<view class="page-shell page-enter recipe-detail-page" wx:if="{{recipe}}">
+  <view class="hero-card">
+    <view class="hero-decor">
+      <view class="hero-emoji">🍲</view>
+    </view>
+    <view class="hero-content">
+      <view class="hero-eyebrow">家庭菜谱</view>
+      <view class="hero-title">{{recipe.name}}</view>
+      <view class="hero-meta">
+        <text class="meta-chip">{{recipe.baseServings}} 人份基准</text>
+        <text class="meta-chip">{{recipe.ingredients.length}} 项食材</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="note-card" wx:if="{{recipe.note}}">
+    <text class="note-icon">📝</text>
+    <text class="note-text">{{recipe.note}}</text>
+  </view>
+
+  <view class="form-group">
+    <view class="group-header">
+      <view class="group-bar"></view>
+      <text class="group-title">所需食材</text>
+      <text class="group-count">{{recipe.ingredients.length}} 项</text>
+    </view>
+    <view class="section-card">
+      <view class="ingredient-row" wx:for="{{recipe.ingredients}}" wx:key="index">
+        <view class="ing-dot"></view>
+        <view class="ingredient-name">{{item.name}}</view>
+        <view class="ingredient-value">{{item.quantity}}{{item.unit}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="form-group">
+    <view class="group-header">
+      <view class="group-bar"></view>
+      <text class="group-title">烹饪步骤</text>
+    </view>
+    <view class="section-card">
+      <view class="instructions" wx:if="{{recipe.instructions}}">{{recipe.instructions}}</view>
+      <view class="instructions empty" wx:else>还没写步骤，编辑菜谱时可以继续补充。</view>
+    </view>
+  </view>
+
+  <view class="action-row">
+    <button class="ghost-btn" bindtap="editRecipe">编辑菜谱</button>
+    <button class="primary-btn" bindtap="orderRecipe">点这个菜</button>
+  </view>
+</view>

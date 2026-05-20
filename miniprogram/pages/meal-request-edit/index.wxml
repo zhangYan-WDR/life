@@ -1,0 +1,54 @@
+<view class="page-shell page-enter meal-edit-page">
+  <!-- 点餐说明 -->
+  <view class="form-group">
+    <view class="group-header">
+      <view class="group-bar"></view>
+      <text class="group-title">点餐说明</text>
+    </view>
+    <view class="form-card">
+      <view class="field">
+        <view class="field-label">标题</view>
+        <input class="field-input" placeholder="不填也行，系统会自动生成" value="{{title}}" data-field="title" bindinput="onFieldInput" />
+      </view>
+      <view class="field-divider"></view>
+      <view class="field">
+        <view class="field-label">备注</view>
+        <input class="field-input" placeholder="例如：今晚想吃点热乎的" value="{{note}}" data-field="note" bindinput="onFieldInput" />
+      </view>
+    </view>
+  </view>
+
+  <!-- 选菜 -->
+  <view class="form-group">
+    <view class="group-header">
+      <view class="group-bar"></view>
+      <text class="group-title">选择要点的菜</text>
+      <text class="group-count" wx:if="{{selectedCount}}">已选 {{selectedCount}} 道</text>
+    </view>
+
+    <view class="recipe-list" wx:if="{{recipes.length}}">
+      <view class="recipe-card {{item.selected ? 'recipe-card-active' : ''}}" wx:for="{{recipes}}" wx:key="id" data-index="{{index}}" bindtap="toggleRecipe">
+        <view class="recipe-head">
+          <view class="check-circle {{item.selected ? 'check-circle-active' : ''}}">
+            <text wx:if="{{item.selected}}" class="check-mark">✓</text>
+          </view>
+          <view class="recipe-main">
+            <view class="recipe-name">{{item.name}}</view>
+            <view class="recipe-meta">{{item.ingredientCount}} 项食材 · 基准 {{item.baseServings}} 人份</view>
+          </view>
+        </view>
+        <view class="servings-row" wx:if="{{item.selected}}" catchtap="noop">
+          <view class="field-label">这次做几人份</view>
+          <input class="field-input" type="digit" value="{{item.targetServings}}" data-index="{{index}}" bindinput="onServingsInput" />
+        </view>
+      </view>
+    </view>
+
+    <view class="empty-recipes" wx:if="{{!recipes.length}}">
+      <text class="empty-emoji">📖</text>
+      <view class="empty-text">还没有菜谱，先去添加几道家常菜吧</view>
+    </view>
+  </view>
+
+  <button class="primary-btn save-btn" bindtap="saveMealRequest">发起点餐</button>
+</view>

@@ -40,6 +40,10 @@ app:
     header-name: Authorization
   fridge:
     expiring-days: 3
+  ocr:
+    enabled: false
+    provider: TODO
+    api-key: CHANGE_ME
   wechat:
     app-id: CHANGE_ME
     app-secret: CHANGE_ME

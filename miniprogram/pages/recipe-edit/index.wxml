@@ -1,0 +1,79 @@
+<view class="page-shell page-enter recipe-edit-page">
+  <!-- 菜谱信息 -->
+  <view class="form-group">
+    <view class="group-header">
+      <view class="group-bar"></view>
+      <text class="group-title">菜谱信息</text>
+    </view>
+    <view class="form-card">
+      <view class="field">
+        <view class="field-label">菜名</view>
+        <input class="field-input" placeholder="例如：红烧鸡" value="{{form.name}}" data-field="name" bindinput="onFieldInput" />
+      </view>
+      <view class="field-divider"></view>
+      <view class="field">
+        <view class="field-label">基准份数（这道菜做几人份）</view>
+        <input class="field-input" type="digit" placeholder="2" value="{{form.baseServings}}" data-field="baseServings" bindinput="onFieldInput" />
+      </view>
+      <view class="field-divider"></view>
+      <view class="field">
+        <view class="field-label">备注</view>
+        <input class="field-input" placeholder="例如：适合工作日晚饭" value="{{form.note}}" data-field="note" bindinput="onFieldInput" />
+      </view>
+      <view class="field-divider"></view>
+      <view class="field">
+        <view class="field-label">烹饪步骤</view>
+        <textarea class="field-textarea" placeholder="简单写下烹饪步骤，按回车分行" value="{{form.instructions}}" data-field="instructions" bindinput="onFieldInput" auto-height maxlength="-1"></textarea>
+      </view>
+    </view>
+  </view>
+
+  <!-- 所需食材 -->
+  <view class="form-group">
+    <view class="group-header">
+      <view class="group-bar"></view>
+      <text class="group-title">所需食材</text>
+      <text class="group-count">{{form.ingredients.length}} 项</text>
+    </view>
+
+    <view class="ingredient-list">
+      <view class="ingredient-card" wx:for="{{form.ingredients}}" wx:key="index">
+        <view class="ing-header">
+          <view class="ing-index">{{index + 1}}</view>
+          <view class="ing-remove" data-index="{{index}}" bindtap="removeIngredient">×</view>
+        </view>
+        <view class="field">
+          <view class="field-label">选择食材</view>
+          <picker range="{{catalog}}" range-key="name" value="{{item.catalogIndex}}" data-index="{{index}}" bindchange="onIngredientSourceChange">
+            <view class="field-picker">
+              <text class="picker-text">{{catalog[item.catalogIndex] ? catalog[item.catalogIndex].name : '请选择食材'}}</text>
+              <text class="picker-arrow">›</text>
+            </view>
+          </picker>
+        </view>
+        <view class="field-row">
+          <view class="field field-half">
+            <view class="field-label">数量</view>
+            <input class="field-input" type="digit" value="{{item.quantity}}" data-index="{{index}}" data-field="quantity" bindinput="onIngredientFieldInput" />
+          </view>
+          <view class="field field-half">
+            <view class="field-label">单位</view>
+            <input class="field-input" value="{{item.unit}}" data-index="{{index}}" data-field="unit" bindinput="onIngredientFieldInput" />
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="add-ingredient-btn" bindtap="addIngredient">
+      <text class="add-icon">＋</text>
+      <text>再加一项食材</text>
+    </view>
+
+    <view class="field-link" bindtap="goIngredients">
+      <text>目录里找不到？去维护家庭食材</text>
+      <text class="link-arrow">›</text>
+    </view>
+  </view>
+
+  <button class="primary-btn save-btn" bindtap="saveRecipe">保存菜谱</button>
+</view>

@@ -1,0 +1,54 @@
+<view class="page-shell page-enter meal-page">
+  <view class="hero-card">
+    <view class="hero-decor">
+      <view class="hero-emoji">🍽️</view>
+    </view>
+    <view class="hero-content">
+      <view class="hero-eyebrow">家庭点餐</view>
+      <view class="hero-title">今晚一起吃什么</view>
+      <view class="hero-text">发起一次点餐，让全家来表态</view>
+    </view>
+  </view>
+
+  <view class="tab-bar">
+    <view class="tab-item {{activeTab === item.key ? 'tab-item-active' : ''}}" wx:for="{{tabs}}" wx:key="key" data-key="{{item.key}}" bindtap="changeTab">
+      <text class="tab-label">{{item.label}}</text>
+      <view class="tab-indicator"></view>
+    </view>
+  </view>
+
+  <view class="loading-hint" wx:if="{{loading}}">
+    <view class="dot-pulse"></view>
+    <text class="loading-text">正在同步点餐单…</text>
+  </view>
+
+  <view class="meal-list" wx:if="{{!loading && items.length}}">
+    <view class="meal-card meal-{{item.statusCls}}" wx:for="{{items}}" wx:key="id" data-id="{{item.id}}" bindtap="openMealRequest">
+      <view class="meal-bar"></view>
+      <view class="meal-body">
+        <view class="meal-head">
+          <view class="meal-title">{{item.title}}</view>
+          <view class="meal-status status-{{item.statusCls}}">{{item.statusLabel}}</view>
+        </view>
+        <view class="meal-recipes">🍲 {{item.recipeNamesText}}</view>
+        <view class="meal-foot">
+          <text class="meal-meta">👤 {{item.requesterName}}</text>
+          <text class="meal-meta" wx:if="{{item.pendingCount}}">⏳ {{item.pendingCount}} 人待表态</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:if="{{!loading && !items.length}}">
+    <view class="empty-emoji">📋</view>
+    <view class="empty-title">这里暂时还是空的</view>
+    <view class="empty-desc">发起一次点餐，家里人就能一起决定今晚吃什么</view>
+  </view>
+
+  <view class="fab-spacer"></view>
+
+  <view class="fab-btn" bindtap="createMealRequest">
+    <text class="fab-icon">＋</text>
+    <text class="fab-text">发起点餐</text>
+  </view>
+</view>

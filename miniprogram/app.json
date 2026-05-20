@@ -3,6 +3,12 @@
     "pages/index/index",
     "pages/family/index",
     "pages/home/index",
+    "pages/recipes/index",
+    "pages/recipe-edit/index",
+    "pages/recipe-detail/index",
+    "pages/meal-requests/index",
+    "pages/meal-request-edit/index",
+    "pages/meal-request-detail/index",
     "pages/fridge/index",
     "pages/fridge/edit",
     "pages/ingredients/index"
