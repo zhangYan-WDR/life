@@ -5,7 +5,7 @@ Page({
   },
   onLoad(query) {
     this.setData({
-      src: query.src,
+      src: query.src ? decodeURIComponent(query.src) : null,
     });
   },
 });
