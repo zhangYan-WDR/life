@@ -59,15 +59,33 @@ page {
   background: linear-gradient(180deg, #e8845a 0%, #d4603e 100%);
 }
 
+.primary-btn,
+.secondary-btn,
+.ghost-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  line-height: 1;
+  padding: 0 28rpx;
+  margin: 0;
+  border-radius: 999rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+  box-sizing: border-box;
+  transition: transform 0.15s ease, opacity 0.15s ease, background 0.15s ease;
+}
+
+.primary-btn::after,
+.secondary-btn::after,
+.ghost-btn::after {
+  border: none;
+}
+
 .primary-btn {
   background: linear-gradient(135deg, #e07850 0%, #d05a3a 100%);
   color: #ffffff;
-  border-radius: 999rpx;
-  font-size: 30rpx;
-  line-height: 92rpx;
-  height: 92rpx;
   border: none;
-  transition: transform 0.15s ease, opacity 0.15s ease;
 }
 
 .primary-btn:active {
@@ -78,12 +96,7 @@ page {
 .secondary-btn {
   background: #fef0e8;
   color: #c4593a;
-  border-radius: 999rpx;
-  font-size: 30rpx;
-  line-height: 88rpx;
-  height: 88rpx;
   border: none;
-  transition: transform 0.15s ease;
 }
 
 .secondary-btn:active {
@@ -94,11 +107,6 @@ page {
   background: #ffffff;
   color: #5a4a40;
   border: 2rpx solid #e8ddd5;
-  border-radius: 999rpx;
-  font-size: 28rpx;
-  line-height: 80rpx;
-  height: 80rpx;
-  transition: transform 0.15s ease, background 0.15s ease;
 }
 
 .ghost-btn:active {

@@ -19,10 +19,47 @@ Page({
     tabs: TABS,
     items: [],
     loading: true,
+    randomRecipe: null,
+    randomLoading: false,
+  },
+
+  onLoad(query) {
+    if (query && query.mode === "random") {
+      this.pickRandomRecipe();
+    }
   },
 
   onShow() {
     this.loadItems();
+  },
+
+  async pickRandomRecipe() {
+    if (this.data.randomLoading) {
+      return;
+    }
+    this.setData({ randomLoading: true });
+    try {
+      const randomRecipe = await request({ url: "/recipes/random" });
+      this.setData({ randomRecipe });
+    } catch (error) {
+      wx.showToast({ title: error.message, icon: "none" });
+    } finally {
+      this.setData({ randomLoading: false });
+    }
+  },
+
+  closeRandom() {
+    this.setData({ randomRecipe: null });
+  },
+
+  orderRandomRecipe() {
+    const recipe = this.data.randomRecipe;
+    if (!recipe) {
+      return;
+    }
+    wx.navigateTo({
+      url: `/pages/meal-request-edit/index?recipeId=${recipe.id}`,
+    });
   },
 
   async loadItems() {

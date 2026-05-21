@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "编辑库存"
+  "navigationBarTitleText": "编辑库存",
+  "usingComponents": {
+    "ingredient-picker": "/components/ingredient-picker/index"
+  }
 }

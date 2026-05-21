@@ -1,7 +1,8 @@
 <view class="page-shell page-enter recipe-detail-page" wx:if="{{recipe}}">
   <view class="hero-card">
     <view class="hero-decor">
-      <view class="hero-emoji">🍲</view>
+      <image wx:if="{{recipe.coverUrl}}" class="hero-cover-image" src="{{recipe.coverUrl}}" mode="aspectFill" />
+      <view wx:else class="hero-emoji">🍲</view>
     </view>
     <view class="hero-content">
       <view class="hero-eyebrow">家庭菜谱</view>
@@ -16,6 +17,17 @@
   <view class="note-card" wx:if="{{recipe.note}}">
     <text class="note-icon">📝</text>
     <text class="note-text">{{recipe.note}}</text>
+  </view>
+
+  <view class="link-card" wx:if="{{recipe.referenceUrl}}" bindtap="openReference">
+    <view class="link-copy">
+      <text class="link-icon">🔗</text>
+      <view class="link-content">
+        <view class="link-title">参考链接</view>
+        <view class="link-text">{{recipe.referenceUrl}}</view>
+      </view>
+    </view>
+    <text class="link-arrow">›</text>
   </view>
 
   <view class="form-group">

@@ -47,15 +47,15 @@
       <view class="summary-big-label">当前在家里的库存总量</view>
     </view>
     <view class="summary-row">
-      <view class="summary-small warn-card">
+      <view class="summary-small warn-card" bindtap="goFridgeExpiring">
         <view class="small-number warn-num">{{summary.expiringSoon}}</view>
         <view class="small-label">即将过期</view>
-        <view class="small-hint">建议优先安排</view>
+        <view class="small-hint">点击查看 →</view>
       </view>
-      <view class="summary-small danger-card">
+      <view class="summary-small danger-card" bindtap="goFridgeExpired">
         <view class="small-number danger-num">{{summary.expired}}</view>
         <view class="small-label">已经过期</view>
-        <view class="small-hint">记得尽快处理</view>
+        <view class="small-hint">点击处理 →</view>
       </view>
     </view>
   </view>
@@ -131,10 +131,6 @@
       </view>
     </view>
     <view class="quick-grid">
-      <view class="quick-card" bindtap="chooseTonight">
-        <view class="quick-title">今晚吃什么</view>
-        <view class="quick-text">随机给一道菜，再决定点不点</view>
-      </view>
       <view class="quick-card quick-plan" data-type="receipt" bindtap="showPlannedFeature">
         <view class="quick-title">小票识别入冰箱</view>
         <view class="quick-text">规划中，先走手动新增</view>

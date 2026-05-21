@@ -1,6 +1,10 @@
 /* eslint-disable no-undef */
 import request from "../../utils/request";
 
+const MAX_COVER_SIZE = 2 * 1024 * 1024;
+const ALLOWED_COVER_EXTENSIONS = ["jpg", "jpeg", "png", "webp", "gif"];
+const REFERENCE_URL_REGEXP = /(https?:\/\/[^\s]+)|(www\.[^\s]+)/i;
+
 function flattenCatalog(data) {
   return [
     ...(data.systemIngredients || []),
@@ -23,11 +27,17 @@ Page({
   data: {
     id: null,
     catalog: [],
+    saving: false,
+    coverPreviewUrl: "",
+    coverLocalPath: "",
     form: {
       name: "",
       baseServings: "2",
       instructions: "",
       note: "",
+      coverUrl: "",
+      coverObjectKey: "",
+      referenceUrl: "",
       ingredients: [],
     },
   },
@@ -69,8 +79,13 @@ Page({
           baseServings: `${recipe.baseServings || 2}`,
           instructions: recipe.instructions || "",
           note: recipe.note || "",
+          coverUrl: recipe.coverUrl || "",
+          coverObjectKey: recipe.coverObjectKey || "",
+          referenceUrl: recipe.referenceUrl || "",
           ingredients: ingredients.length ? ingredients : [createIngredientLine(this.data.catalog)],
         },
+        coverPreviewUrl: recipe.coverUrl || "",
+        coverLocalPath: "",
       });
     } catch (error) {
       wx.showToast({ title: error.message, icon: "none" });
@@ -94,12 +109,15 @@ Page({
 
   onIngredientSourceChange(e) {
     const index = Number(e.currentTarget.dataset.index);
-    const selected = this.data.catalog[Number(e.detail.value)];
+    const selected = e.detail.item;
     if (!selected) {
       return;
     }
+    const catalogIndex = this.data.catalog.findIndex(
+      (it) => `${it.id}` === `${selected.id}` && it.sourceType === selected.sourceType,
+    );
     this.setData({
-      [`form.ingredients[${index}].catalogIndex`]: Number(e.detail.value),
+      [`form.ingredients[${index}].catalogIndex`]: catalogIndex >= 0 ? catalogIndex : 0,
       [`form.ingredients[${index}].sourceType`]: selected.sourceType,
       [`form.ingredients[${index}].sourceId`]: selected.id,
       [`form.ingredients[${index}].unit`]: selected.defaultUnit,
@@ -128,12 +146,83 @@ Page({
     });
   },
 
-  async saveRecipe() {
-    const payload = {
+  async chooseCover() {
+    try {
+      const res = await new Promise((resolve, reject) => {
+        wx.chooseImage({
+          count: 1,
+          sizeType: ["compressed"],
+          sourceType: ["album", "camera"],
+          success: resolve,
+          fail: reject,
+        });
+      });
+      const file = (res.tempFiles || [])[0] || {};
+      const filePath = file.path || (res.tempFilePaths || [])[0];
+      if (!filePath) {
+        return;
+      }
+      if ((file.size || 0) > MAX_COVER_SIZE) {
+        wx.showToast({ title: "封面图片不能超过 2MB", icon: "none" });
+        return;
+      }
+      const extension = this.resolveExtension(filePath);
+      if (!ALLOWED_COVER_EXTENSIONS.includes(extension)) {
+        wx.showToast({ title: "仅支持 jpg、png、webp、gif", icon: "none" });
+        return;
+      }
+      this.setData({
+        coverPreviewUrl: filePath,
+        coverLocalPath: filePath,
+      });
+    } catch (error) {
+      if (error && error.errMsg && error.errMsg.indexOf("cancel") >= 0) {
+        return;
+      }
+      wx.showToast({ title: "选择封面失败", icon: "none" });
+    }
+  },
+
+  removeCover() {
+    this.setData({
+      coverPreviewUrl: "",
+      coverLocalPath: "",
+      "form.coverUrl": "",
+      "form.coverObjectKey": "",
+    });
+  },
+
+  resolveExtension(filePath) {
+    const index = (filePath || "").lastIndexOf(".");
+    return index >= 0 ? filePath.substring(index + 1).toLowerCase() : "";
+  },
+
+  extractReferenceUrl(value) {
+    const text = (value || "").trim();
+    if (!text) {
+      return "";
+    }
+    const matched = text.match(REFERENCE_URL_REGEXP);
+    if (!matched || !matched[0]) {
+      return "";
+    }
+    let url = matched[0].replace(/[.,;:!?)]}>\u3002\uff0c\uff1b\uff1a\uff01\uff1f\u3001]+$/g, "");
+    if (/^www\./i.test(url)) {
+      url = `https://${url}`;
+    }
+    return url;
+  },
+
+  buildPayload() {
+    const referenceUrl = this.extractReferenceUrl(this.data.form.referenceUrl);
+    return {
       name: this.data.form.name,
       baseServings: Number(this.data.form.baseServings),
       instructions: this.data.form.instructions,
       note: this.data.form.note,
+      coverUrl: this.data.form.coverUrl,
+      coverObjectKey: this.data.form.coverObjectKey,
+      referenceUrl,
       ingredients: (this.data.form.ingredients || []).map((item) => ({
         sourceType: item.sourceType,
         sourceId: item.sourceId,
@@ -141,23 +230,113 @@ Page({
         unit: item.unit,
       })),
     };
+  },
+
+  async requestCoverUploadPolicy(recipeId, filePath) {
+    const fileName = (filePath || "").split("/").pop() || "cover.jpg";
+    return request({
+      url: `/recipes/${recipeId}/cover-upload-policy`,
+      method: "POST",
+      data: {
+        originalFileName: fileName,
+      },
+    });
+  },
+
+  async uploadCover(recipeId, filePath) {
+    const policy = await this.requestCoverUploadPolicy(recipeId, filePath);
+    await new Promise((resolve, reject) => {
+      wx.uploadFile({
+        url: policy.uploadHost,
+        filePath,
+        name: "file",
+        formData: {
+          key: policy.objectKey,
+          policy: policy.policy,
+          OSSAccessKeyId: policy.accessKeyId,
+          signature: policy.signature,
+          success_action_status: policy.successActionStatus,
+        },
+        success: (res) => {
+          if (res.statusCode >= 200 && res.statusCode < 300) {
+            resolve();
+            return;
+          }
+          reject(new Error("上传封面失败"));
+        },
+        fail: reject,
+      });
+    });
+    return {
+      coverUrl: policy.publicUrl,
+      coverObjectKey: policy.objectKey,
+    };
+  },
+
+  async saveRecipe() {
+    if (this.data.saving) {
+      return;
+    }
+    if (this.data.form.referenceUrl && !this.extractReferenceUrl(this.data.form.referenceUrl)) {
+      wx.showToast({ title: "参考链接里没找到可用地址", icon: "none" });
+      return;
+    }
+    const finalPayload = this.buildPayload();
+    const hasPendingCoverUpload = !!this.data.coverLocalPath;
+    this.setData({ saving: true });
+    wx.showLoading({ title: "保存中...", mask: true });
     try {
+      let recipeId = this.data.id;
       if (this.data.id) {
         await request({
           url: `/recipes/${this.data.id}`,
           method: "PUT",
-          data: payload,
+          data: hasPendingCoverUpload
+            ? {
+                ...finalPayload,
+                coverUrl: this.data.form.coverUrl,
+                coverObjectKey: this.data.form.coverObjectKey,
+              }
+            : finalPayload,
         });
       } else {
-        await request({
+        const created = await request({
           url: "/recipes",
           method: "POST",
-          data: payload,
+          data: hasPendingCoverUpload
+            ? {
+                ...finalPayload,
+                coverUrl: "",
+                coverObjectKey: "",
+              }
+            : finalPayload,
+        });
+        recipeId = created.id;
+        this.setData({
+          id: recipeId,
         });
       }
+
+      if (hasPendingCoverUpload) {
+        wx.showLoading({ title: "上传封面...", mask: true });
+        const cover = await this.uploadCover(recipeId, this.data.coverLocalPath);
+        await request({
+          url: `/recipes/${recipeId}`,
+          method: "PUT",
+          data: {
+            ...finalPayload,
+            coverUrl: cover.coverUrl,
+            coverObjectKey: cover.coverObjectKey,
+          },
+        });
+      }
+      wx.hideLoading();
       wx.navigateBack();
     } catch (error) {
+      wx.hideLoading();
       wx.showToast({ title: error.message, icon: "none" });
+    } finally {
+      this.setData({ saving: false });
     }
   },
 });

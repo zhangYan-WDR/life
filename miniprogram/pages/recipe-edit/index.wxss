@@ -81,6 +81,64 @@
   line-height: 1.7;
 }
 
+.cover-panel {
+  padding: 24rpx;
+  border-radius: 20rpx;
+  background: #faf7f3;
+}
+
+.cover-preview {
+  width: 100%;
+  height: 280rpx;
+  border-radius: 18rpx;
+  display: block;
+}
+
+.cover-empty {
+  height: 180rpx;
+  border-radius: 18rpx;
+  border: 2rpx dashed #e4d6c7;
+  background: #fffdf9;
+  color: #b0a090;
+  font-size: 26rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cover-actions {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 18rpx;
+}
+
+.cover-btn {
+  margin: 0;
+  padding: 0 24rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  border-radius: 16rpx;
+  background: linear-gradient(135deg, #e07850 0%, #d05a3a 100%);
+  color: #ffffff;
+  font-size: 24rpx;
+}
+
+.cover-btn::after {
+  border: none;
+}
+
+.cover-btn-muted {
+  background: #ece4dc;
+  color: #7e6858;
+}
+
+.cover-hint {
+  margin-top: 14rpx;
+  font-size: 22rpx;
+  color: #a48f81;
+  line-height: 1.5;
+}
+
 /* Picker */
 .field-picker {
   display: flex;

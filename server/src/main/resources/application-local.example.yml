@@ -14,6 +14,18 @@ app:
     enabled: false
     provider: TODO
     api-key: change-me
+  oss:
+    enabled: true
+    endpoint: oss-cn-hangzhou.aliyuncs.com
+    region: cn-hangzhou
+    bucket: life-zy
+    public-domain: https://life-zy.oss-cn-hangzhou.aliyuncs.com
+    cover-dir: recipe-covers
+    max-size-bytes: 2097152
+    policy-expire-seconds: 300
+    read-url-expire-seconds: 1800
+    access-key-id: change-me
+    access-key-secret: change-me
   wechat:
     app-id: your-app-id
     app-secret: your-app-secret

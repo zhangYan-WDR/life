@@ -10,6 +10,36 @@
     </view>
   </view>
 
+  <!-- 随机推荐卡 -->
+  <view class="random-card" wx:if="{{randomRecipe}}">
+    <view class="random-header">
+      <view class="random-label">
+        <text class="dice-icon">🎲</text>
+        <text>今晚不如吃</text>
+      </view>
+      <view class="random-close" bindtap="closeRandom">×</view>
+    </view>
+    <view class="random-name">{{randomRecipe.name}}</view>
+    <view class="random-meta">
+      <text class="meta-chip">{{randomRecipe.baseServings}} 人份基准</text>
+      <text class="meta-chip">{{randomRecipe.ingredients.length}} 项食材</text>
+    </view>
+    <view class="random-actions">
+      <button class="ghost-btn random-btn" bindtap="pickRandomRecipe">换一道</button>
+      <button class="primary-btn random-btn" bindtap="orderRandomRecipe">就点这个</button>
+    </view>
+  </view>
+
+  <!-- 随机入口 -->
+  <view class="random-entry" wx:if="{{!randomRecipe}}" bindtap="pickRandomRecipe">
+    <view class="random-entry-icon">🎲</view>
+    <view class="random-entry-body">
+      <view class="random-entry-title">随机选一道</view>
+      <view class="random-entry-text">不知道吃啥？让缘分决定</view>
+    </view>
+    <view class="random-entry-arrow">›</view>
+  </view>
+
   <view class="tab-bar">
     <view class="tab-item {{activeTab === item.key ? 'tab-item-active' : ''}}" wx:for="{{tabs}}" wx:key="key" data-key="{{item.key}}" bindtap="changeTab">
       <text class="tab-label">{{item.label}}</text>

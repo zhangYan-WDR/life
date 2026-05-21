@@ -19,6 +19,12 @@ Page({
     loading: true,
   },
 
+  onLoad(query) {
+    if (query.tab === "EXPIRING" || query.tab === "EXPIRED") {
+      this.setData({ activeTab: query.tab });
+    }
+  },
+
   onShow() {
     this.loadItems();
   },

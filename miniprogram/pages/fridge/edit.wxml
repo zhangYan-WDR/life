@@ -8,12 +8,11 @@
     <view class="form-card">
       <view class="field">
         <view class="field-label">选择食材</view>
-        <picker range="{{catalog}}" range-key="name" value="{{sourceIndex}}" bindchange="onSourceChange">
-          <view class="field-picker">
-            <text class="picker-text {{catalog[sourceIndex] ? '' : 'placeholder'}}">{{catalog[sourceIndex] ? catalog[sourceIndex].name : '请选择食材'}}</text>
-            <text class="picker-arrow">›</text>
-          </view>
-        </picker>
+        <ingredient-picker
+          catalog="{{catalog}}"
+          value="{{sourceId}}"
+          bind:change="onSourceChange"
+        />
       </view>
       <view class="field-link" bindtap="goIngredients">
         <text>找不到？去维护家庭食材</text>

@@ -41,4 +41,14 @@ Page({
       url: `/pages/meal-request-edit/index?recipeId=${this.data.id}`,
     });
   },
+
+  openReference() {
+    const referenceUrl = this.data.recipe && this.data.recipe.referenceUrl;
+    if (!referenceUrl) {
+      return;
+    }
+    wx.navigateTo({
+      url: `/pages/webview/index?src=${encodeURIComponent(referenceUrl)}`,
+    });
+  },
 });

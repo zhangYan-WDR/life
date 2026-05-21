@@ -21,6 +21,9 @@ public class UpsertRecipeRequest {
 
     private String instructions;
     private String note;
+    private String coverUrl;
+    private String coverObjectKey;
+    private String referenceUrl;
 
     @Valid
     @NotEmpty(message = "至少需要一个食材")

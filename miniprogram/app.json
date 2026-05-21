@@ -6,6 +6,7 @@
     "pages/recipes/index",
     "pages/recipe-edit/index",
     "pages/recipe-detail/index",
+    "pages/webview/index",
     "pages/meal-requests/index",
     "pages/meal-request-edit/index",
     "pages/meal-request-detail/index",

@@ -1,7 +1,9 @@
 package com.life.server.controller;
 
 import com.life.server.common.ApiResponse;
+import com.life.server.dto.request.RecipeCoverUploadPolicyRequest;
 import com.life.server.dto.request.UpsertRecipeRequest;
+import com.life.server.dto.response.RecipeCoverUploadPolicyResponse;
 import com.life.server.dto.response.RecipeDetailResponse;
 import com.life.server.dto.response.RecipeListItemView;
 import com.life.server.security.AuthContext;
@@ -45,6 +47,14 @@ public class RecipeController {
     public ApiResponse<RecipeDetailResponse> updateRecipe(@PathVariable("id") Long id,
                                                           @Valid @RequestBody UpsertRecipeRequest request) {
         return ApiResponse.success(recipeService.updateRecipe(AuthContext.getUserId(), id, request));
+    }
+
+    @PostMapping("/{id}/cover-upload-policy")
+    public ApiResponse<RecipeCoverUploadPolicyResponse> createCoverUploadPolicy(
+        @PathVariable("id") Long id,
+        @Valid @RequestBody RecipeCoverUploadPolicyRequest request
+    ) {
+        return ApiResponse.success(recipeService.createCoverUploadPolicy(AuthContext.getUserId(), id, request.getOriginalFileName()));
     }
 
     @GetMapping("/random")

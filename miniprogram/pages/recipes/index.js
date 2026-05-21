@@ -4,15 +4,9 @@ import request from "../../utils/request";
 Page({
   data: {
     recipes: [],
+    filteredRecipes: [],
+    keyword: "",
     loading: true,
-    randomRecipe: null,
-    mode: "",
-  },
-
-  onLoad(query) {
-    this.setData({
-      mode: query.mode || "",
-    });
   },
 
   onShow() {
@@ -28,9 +22,7 @@ Page({
       this.setData({
         recipes: recipes || [],
       });
-      if (this.data.mode === "random" && (recipes || []).length && !this.data.randomRecipe) {
-        this.pickRandomRecipe();
-      }
+      this.applyFilter();
     } catch (error) {
       wx.showToast({ title: error.message, icon: "none" });
     } finally {
@@ -40,19 +32,28 @@ Page({
     }
   },
 
-  async pickRandomRecipe() {
-    try {
-      const randomRecipe = await request({ url: "/recipes/random" });
-      this.setData({
-        randomRecipe,
-      });
-    } catch (error) {
-      wx.showToast({ title: error.message, icon: "none" });
-    }
+  onKeywordInput(e) {
+    this.setData({ keyword: e.detail.value });
+    this.applyFilter();
   },
 
-  closeRandom() {
-    this.setData({ randomRecipe: null });
+  clearKeyword() {
+    this.setData({ keyword: "" });
+    this.applyFilter();
+  },
+
+  applyFilter() {
+    const keyword = (this.data.keyword || "").trim().toLowerCase();
+    if (!keyword) {
+      this.setData({ filteredRecipes: this.data.recipes });
+      return;
+    }
+    const filtered = this.data.recipes.filter((item) => {
+      const name = (item.name || "").toLowerCase();
+      const note = (item.note || "").toLowerCase();
+      return name.includes(keyword) || note.includes(keyword);
+    });
+    this.setData({ filteredRecipes: filtered });
   },
 
   createRecipe() {
@@ -64,16 +65,6 @@ Page({
   openRecipe(e) {
     wx.navigateTo({
       url: `/pages/recipe-detail/index?id=${e.currentTarget.dataset.id}`,
-    });
-  },
-
-  orderRandomRecipe() {
-    const recipe = this.data.randomRecipe;
-    if (!recipe) {
-      return;
-    }
-    wx.navigateTo({
-      url: `/pages/meal-request-edit/index?recipeId=${recipe.id}`,
     });
   },
 

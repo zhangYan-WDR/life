@@ -13,6 +13,7 @@ Page({
     id: null,
     catalog: [],
     sourceType: "SYSTEM",
+    sourceId: null,
     sourceIndex: 0,
     quantity: "1",
     unit: "",
@@ -38,9 +39,12 @@ Page({
       url: "/ingredients/catalog",
     });
     const catalog = flattenCatalog(catalogData);
+    const first = catalog[0];
     this.setData({
       catalog,
-      unit: catalog.length ? catalog[0].defaultUnit : "",
+      unit: this.data.unit || (first ? first.defaultUnit : ""),
+      sourceId: this.data.sourceId || (first ? first.id : null),
+      sourceType: this.data.sourceId ? this.data.sourceType : (first ? first.sourceType : "SYSTEM"),
     });
   },
 
@@ -52,9 +56,10 @@ Page({
     if (!current) {
       return;
     }
-    const index = this.data.catalog.findIndex((item) => item.id === current.sourceId && item.sourceType === current.sourceType);
+    const index = this.data.catalog.findIndex((item) => `${item.id}` === `${current.sourceId}` && item.sourceType === current.sourceType);
     this.setData({
       sourceType: current.sourceType,
+      sourceId: current.sourceId,
       sourceIndex: index >= 0 ? index : 0,
       quantity: `${current.quantity}`,
       unit: current.unit,
@@ -67,10 +72,14 @@ Page({
   },
 
   onSourceChange(e) {
-    const index = Number(e.detail.value);
-    const selected = this.data.catalog[index];
+    const selected = e.detail.item;
+    if (!selected) return;
+    const index = this.data.catalog.findIndex(
+      (it) => `${it.id}` === `${selected.id}` && it.sourceType === selected.sourceType,
+    );
     this.setData({
-      sourceIndex: index,
+      sourceIndex: index >= 0 ? index : 0,
+      sourceId: selected.id,
       sourceType: selected.sourceType,
       unit: selected.defaultUnit,
     });
@@ -91,10 +100,9 @@ Page({
   },
 
   async saveItem() {
-    const selected = this.data.catalog[this.data.sourceIndex];
     const payload = {
       sourceType: this.data.sourceType,
-      sourceId: selected ? selected.id : null,
+      sourceId: this.data.sourceId,
       customName: this.data.customName,
       quantity: Number(this.data.quantity),
       unit: this.data.unit,

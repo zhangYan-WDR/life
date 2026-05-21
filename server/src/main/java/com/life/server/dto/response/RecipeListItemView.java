@@ -14,5 +14,6 @@ public class RecipeListItemView {
     private BigDecimal baseServings;
     private Integer ingredientCount;
     private String note;
+    private String coverUrl;
     private LocalDateTime updatedAt;
 }

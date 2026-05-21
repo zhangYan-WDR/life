@@ -108,6 +108,18 @@ Page({
     });
   },
 
+  goFridgeExpiring() {
+    wx.navigateTo({
+      url: "/pages/fridge/index?tab=EXPIRING",
+    });
+  },
+
+  goFridgeExpired() {
+    wx.navigateTo({
+      url: "/pages/fridge/index?tab=EXPIRED",
+    });
+  },
+
   goIngredients() {
     wx.navigateTo({
       url: "/pages/ingredients/index",
@@ -123,12 +135,6 @@ Page({
   goMealRequests() {
     wx.navigateTo({
       url: "/pages/meal-requests/index",
-    });
-  },
-
-  chooseTonight() {
-    wx.navigateTo({
-      url: "/pages/recipes/index?mode=random",
     });
   },
 

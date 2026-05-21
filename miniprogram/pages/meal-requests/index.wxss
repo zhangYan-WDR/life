@@ -295,7 +295,149 @@
   font-weight: 600;
 }
 
+/* ===== 随机推荐卡 ===== */
+.random-card {
+  padding: 28rpx;
+  border-radius: 28rpx;
+  background: linear-gradient(160deg, #fff8ed 0%, #fff0d6 60%, #ffe4bd 100%);
+  box-shadow: 0 8rpx 24rpx rgba(208, 130, 60, 0.12);
+  border: 2rpx solid rgba(232, 144, 96, 0.15);
+  animation: randomCardIn 0.4s ease;
+}
+
+.random-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.random-label {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  font-size: 24rpx;
+  color: #b07050;
+  font-weight: 500;
+}
+
+.dice-icon {
+  font-size: 30rpx;
+  animation: diceShake 2.5s ease-in-out infinite;
+  display: inline-block;
+}
+
+.random-close {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  line-height: 44rpx;
+  font-size: 32rpx;
+  color: #8a7058;
+  transition: transform 0.15s ease;
+}
+
+.random-close:active {
+  transform: scale(0.9);
+}
+
+.random-name {
+  margin-top: 14rpx;
+  font-size: 44rpx;
+  font-weight: 700;
+  color: #4a2818;
+}
+
+.random-meta {
+  display: flex;
+  gap: 12rpx;
+  margin-top: 14rpx;
+}
+
+.meta-chip {
+  padding: 6rpx 16rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, 0.65);
+  font-size: 22rpx;
+  color: #8d603e;
+}
+
+.random-actions {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 14rpx;
+  margin-top: 22rpx;
+}
+
+.random-btn {
+  width: 100%;
+  margin: 0;
+}
+
+/* ===== 随机入口 ===== */
+.random-entry {
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+  padding: 22rpx 26rpx;
+  border-radius: 22rpx;
+  background: linear-gradient(135deg, #fff4e3 0%, #ffe7c5 100%);
+  box-shadow: 0 6rpx 20rpx rgba(208, 130, 60, 0.08);
+  border: 2rpx solid rgba(232, 144, 96, 0.12);
+  transition: transform 0.18s ease;
+}
+
+.random-entry:active {
+  transform: scale(0.98);
+}
+
+.random-entry-icon {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 18rpx;
+  background: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40rpx;
+  flex-shrink: 0;
+}
+
+.random-entry-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.random-entry-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #4a2818;
+}
+
+.random-entry-text {
+  margin-top: 6rpx;
+  font-size: 22rpx;
+  color: #8d6f55;
+}
+
+.random-entry-arrow {
+  font-size: 40rpx;
+  color: #b08260;
+}
+
 /* ===== 动画 ===== */
+@keyframes randomCardIn {
+  from { opacity: 0; transform: translateY(-8rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes diceShake {
+  0%, 90%, 100% { transform: rotate(0deg); }
+  93% { transform: rotate(-15deg); }
+  96% { transform: rotate(15deg); }
+}
+
 @keyframes dotPulse {
   0%, 100% { transform: scale(1); opacity: 0.4; }
   50% { transform: scale(1.5); opacity: 1; }

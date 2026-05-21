@@ -44,6 +44,18 @@ app:
     enabled: false
     provider: TODO
     api-key: CHANGE_ME
+  oss:
+    enabled: false
+    endpoint: oss-cn-hangzhou.aliyuncs.com
+    region: cn-hangzhou
+    bucket: CHANGE_ME
+    public-domain: https://CHANGE_ME.oss-cn-hangzhou.aliyuncs.com
+    cover-dir: recipe-covers
+    max-size-bytes: 2097152
+    policy-expire-seconds: 300
+    read-url-expire-seconds: 1800
+    access-key-id: CHANGE_ME
+    access-key-secret: CHANGE_ME
   wechat:
     app-id: CHANGE_ME
     app-secret: CHANGE_ME

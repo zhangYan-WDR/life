@@ -11,26 +11,6 @@
     </view>
   </view>
 
-  <!-- 随机推荐卡 -->
-  <view class="random-card" wx:if="{{randomRecipe}}">
-    <view class="random-header">
-      <view class="random-label">
-        <text class="dice-icon">🎲</text>
-        <text>今晚不如吃</text>
-      </view>
-      <view class="random-close" bindtap="closeRandom">×</view>
-    </view>
-    <view class="random-name">{{randomRecipe.name}}</view>
-    <view class="random-meta">
-      <text class="meta-chip">{{randomRecipe.baseServings}} 人份基准</text>
-      <text class="meta-chip">{{randomRecipe.ingredients.length}} 项食材</text>
-    </view>
-    <view class="random-actions">
-      <button class="ghost-btn random-btn" bindtap="pickRandomRecipe">换一道</button>
-      <button class="primary-btn random-btn" bindtap="orderRandomRecipe">就点这个</button>
-    </view>
-  </view>
-
   <!-- 主操作区 -->
   <view class="quick-actions">
     <view class="quick-btn quick-primary" bindtap="createRecipe">
@@ -38,13 +18,6 @@
       <view class="qb-content">
         <view class="qb-title">手动添加菜谱</view>
         <view class="qb-text">把家里常做的菜记下来</view>
-      </view>
-    </view>
-    <view class="quick-btn quick-second" bindtap="pickRandomRecipe">
-      <view class="qb-icon">🎲</view>
-      <view class="qb-content">
-        <view class="qb-title">随机选一道</view>
-        <view class="qb-text">不知道吃啥？让缘分决定</view>
       </view>
     </view>
     <view class="quick-btn quick-plan" bindtap="showRecipePlanner">
@@ -62,7 +35,20 @@
     <view class="group-header">
       <view class="group-bar"></view>
       <text class="group-title">家庭菜谱</text>
-      <text class="group-count" wx:if="{{recipes.length}}">{{recipes.length}} 道</text>
+      <text class="group-count" wx:if="{{recipes.length}}">{{filteredRecipes.length}}/{{recipes.length}} 道</text>
+    </view>
+
+    <view class="search-bar" wx:if="{{recipes.length}}">
+      <text class="search-icon">🔍</text>
+      <input
+        class="search-input"
+        placeholder="搜索菜名或备注"
+        placeholder-class="search-placeholder"
+        value="{{keyword}}"
+        confirm-type="search"
+        bindinput="onKeywordInput"
+      />
+      <view class="search-clear" wx:if="{{keyword}}" bindtap="clearKeyword">×</view>
     </view>
 
     <view class="loading-hint" wx:if="{{loading}}">
@@ -70,10 +56,11 @@
       <text class="loading-text">正在同步菜谱…</text>
     </view>
 
-    <view class="recipe-list" wx:if="{{!loading && recipes.length}}">
-      <view class="recipe-card" wx:for="{{recipes}}" wx:key="id" data-id="{{item.id}}" bindtap="openRecipe">
+    <view class="recipe-list" wx:if="{{!loading && filteredRecipes.length}}">
+      <view class="recipe-card" wx:for="{{filteredRecipes}}" wx:key="id" data-id="{{item.id}}" bindtap="openRecipe">
         <view class="recipe-cover">
-          <text class="recipe-emoji">🍲</text>
+          <image wx:if="{{item.coverUrl}}" class="recipe-cover-image" src="{{item.coverUrl}}" mode="aspectFill" />
+          <text wx:else class="recipe-emoji">🍲</text>
         </view>
         <view class="recipe-body">
           <view class="recipe-head">
@@ -86,6 +73,12 @@
           </view>
         </view>
       </view>
+    </view>
+
+    <view class="empty-state" wx:if="{{!loading && recipes.length && !filteredRecipes.length}}">
+      <view class="empty-emoji">🔍</view>
+      <view class="empty-title">没找到匹配的菜谱</view>
+      <view class="empty-desc">换个关键字试试，或清空搜索看看全部菜谱</view>
     </view>
 
     <view class="empty-state" wx:if="{{!loading && !recipes.length}}">

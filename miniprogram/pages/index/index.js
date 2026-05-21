@@ -33,7 +33,7 @@ Page({
         loading: false,
         ready: true,
         routeTarget: "/pages/home/index",
-        buttonText: "欢迎回来，进入小家",
+        buttonText: "进入小家",
       });
     } catch (error) {
       if ((error.message || "").indexOf("还未加入家庭") >= 0) {

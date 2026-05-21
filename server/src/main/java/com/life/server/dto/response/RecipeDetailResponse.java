@@ -15,6 +15,9 @@ public class RecipeDetailResponse {
     private BigDecimal baseServings;
     private String instructions;
     private String note;
+    private String coverUrl;
+    private String coverObjectKey;
+    private String referenceUrl;
     private String status;
     private LocalDateTime updatedAt;
     private List<RecipeIngredientView> ingredients;

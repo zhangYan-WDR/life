@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "编辑菜谱"
+  "navigationBarTitleText": "编辑菜谱",
+  "usingComponents": {
+    "ingredient-picker": "/components/ingredient-picker/index"
+  }
 }

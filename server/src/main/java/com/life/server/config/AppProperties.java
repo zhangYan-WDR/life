@@ -10,6 +10,7 @@ public class AppProperties {
     private Auth auth = new Auth();
     private Fridge fridge = new Fridge();
     private Ocr ocr = new Ocr();
+    private Oss oss = new Oss();
     private Wechat wechat = new Wechat();
 
     public Auth getAuth() {
@@ -24,8 +25,114 @@ public class AppProperties {
         return ocr;
     }
 
+    public Oss getOss() {
+        return oss;
+    }
+
     public Wechat getWechat() {
         return wechat;
+    }
+
+    public static class Oss {
+        private Boolean enabled;
+        private String endpoint;
+        private String region;
+        private String bucket;
+        private String publicDomain;
+        private String coverDir;
+        private Long maxSizeBytes;
+        private Long policyExpireSeconds;
+        private Long readUrlExpireSeconds;
+        private String accessKeyId;
+        private String accessKeySecret;
+
+        public Boolean getEnabled() {
+            return enabled;
+        }
+
+        public void setEnabled(Boolean enabled) {
+            this.enabled = enabled;
+        }
+
+        public String getEndpoint() {
+            return endpoint;
+        }
+
+        public void setEndpoint(String endpoint) {
+            this.endpoint = endpoint;
+        }
+
+        public String getRegion() {
+            return region;
+        }
+
+        public void setRegion(String region) {
+            this.region = region;
+        }
+
+        public String getBucket() {
+            return bucket;
+        }
+
+        public void setBucket(String bucket) {
+            this.bucket = bucket;
+        }
+
+        public String getPublicDomain() {
+            return publicDomain;
+        }
+
+        public void setPublicDomain(String publicDomain) {
+            this.publicDomain = publicDomain;
+        }
+
+        public String getCoverDir() {
+            return coverDir;
+        }
+
+        public void setCoverDir(String coverDir) {
+            this.coverDir = coverDir;
+        }
+
+        public Long getMaxSizeBytes() {
+            return maxSizeBytes;
+        }
+
+        public void setMaxSizeBytes(Long maxSizeBytes) {
+            this.maxSizeBytes = maxSizeBytes;
+        }
+
+        public Long getPolicyExpireSeconds() {
+            return policyExpireSeconds;
+        }
+
+        public void setPolicyExpireSeconds(Long policyExpireSeconds) {
+            this.policyExpireSeconds = policyExpireSeconds;
+        }
+
+        public Long getReadUrlExpireSeconds() {
+            return readUrlExpireSeconds;
+        }
+
+        public void setReadUrlExpireSeconds(Long readUrlExpireSeconds) {
+            this.readUrlExpireSeconds = readUrlExpireSeconds;
+        }
+
+        public String getAccessKeyId() {
+            return accessKeyId;
+        }
+
+        public void setAccessKeyId(String accessKeyId) {
+            this.accessKeyId = accessKeyId;
+        }
+
+        public String getAccessKeySecret() {
+            return accessKeySecret;
+        }
+
+        public void setAccessKeySecret(String accessKeySecret) {
+            this.accessKeySecret = accessKeySecret;
+        }
     }
 
     public static class Auth {
