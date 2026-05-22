@@ -163,6 +163,26 @@ Page({
     });
   },
 
+  goSpinner() {
+    wx.navigateTo({ url: '/pages/games/spinner/index' });
+  },
+
+  goRps() {
+    wx.navigateTo({ url: '/pages/games/rps/index' });
+  },
+
+  goBarrel() {
+    wx.navigateTo({ url: '/pages/games/barrel/index' });
+  },
+
+  goFinger() {
+    wx.navigateTo({ url: '/pages/games/finger/index' });
+  },
+
+  goDice() {
+    wx.navigateTo({ url: '/pages/games/dice/index' });
+  },
+
   openMealRequest(e) {
     wx.navigateTo({
       url: `/pages/meal-request-detail/index?id=${e.currentTarget.dataset.id}`,

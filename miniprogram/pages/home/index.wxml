@@ -140,6 +140,47 @@
         <view class="quick-text">拍菜谱图，自动预填标题和步骤</view>
       </view>
     </view>
+
+    <!-- 家庭游戏 -->
+    <view class="panel-header games-header">
+      <view class="section-title">家庭游戏</view>
+      <view class="section-desc">决定谁来洗碗</view>
+    </view>
+    <view class="games-grid">
+      <view class="game-card" bindtap="goSpinner">
+        <view class="game-emoji">🎡</view>
+        <view class="game-title">随机转盘</view>
+        <view class="game-text">随机选出今天的主角</view>
+      </view>
+      <view class="game-card" bindtap="goRps">
+        <view class="game-emoji">✊</view>
+        <view class="game-title">石头剪刀布</view>
+        <view class="game-text">异步出拳，同时揭晓</view>
+      </view>
+      <view class="game-card" bindtap="goBarrel">
+        <view class="game-emoji">🪣</view>
+        <view class="game-title">海盗桶</view>
+        <view class="game-text">轮流插剑，谁会中招</view>
+      </view>
+    </view>
+
+    <!-- 聚会游戏 -->
+    <view class="panel-header games-header">
+      <view class="section-title">聚会游戏</view>
+      <view class="section-desc">无需登录，秒开即玩</view>
+    </view>
+    <view class="games-grid games-grid-2">
+      <view class="game-card game-card-party" bindtap="goFinger">
+        <view class="game-emoji">👆</view>
+        <view class="game-title">指尖轮盘</view>
+        <view class="game-text">多人同时按屏，随机选人</view>
+      </view>
+      <view class="game-card game-card-party" bindtap="goDice">
+        <view class="game-emoji">🎲</view>
+        <view class="game-title">喝酒骰子</view>
+        <view class="game-text">摇一摇，5个骰子同时出</view>
+      </view>
+    </view>
     <view class="subscribe-row">
       <button class="ghost-btn subscribe-btn" bindtap="subscribeReminder">🔔 开启过期提醒</button>
       <button class="ghost-btn subscribe-btn" bindtap="subscribeMealReminder">📮 开启点餐提醒</button>

@@ -13,7 +13,13 @@
     "pages/meal-request-detail/index",
     "pages/fridge/index",
     "pages/fridge/edit",
-    "pages/ingredients/index"
+    "pages/ingredients/index",
+    "pages/games/spinner/index",
+    "pages/games/rps/index",
+    "pages/games/rps/room",
+    "pages/games/barrel/index",
+    "pages/games/finger/index",
+    "pages/games/dice/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
