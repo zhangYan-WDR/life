@@ -54,6 +54,14 @@
       <text class="group-count">{{form.ingredients.length}} 项</text>
     </view>
 
+    <view class="ocr-hint-card" wx:if="{{recognizedIngredientNames.length}}">
+      <view class="ocr-hint-title">图片里识别到这些食材</view>
+      <view class="ocr-hint-text">它们还没自动映射到目录，请按下面的食材行手动选择确认。</view>
+      <view class="ocr-tags">
+        <text class="ocr-tag" wx:for="{{recognizedIngredientNames}}" wx:key="index">{{item}}</text>
+      </view>
+    </view>
+
     <view class="ingredient-list">
       <view class="ingredient-card" wx:for="{{form.ingredients}}" wx:key="index">
         <view class="ing-header">
@@ -65,6 +73,7 @@
           <ingredient-picker
             catalog="{{catalog}}"
             value="{{item.sourceId}}"
+            selected-item="{{item.selectedItem}}"
             data-index="{{index}}"
             bind:change="onIngredientSourceChange"
           />

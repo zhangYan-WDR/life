@@ -1,0 +1,127 @@
+<view class="ip-trigger" bindtap="openPanel">
+  <text class="ip-text {{selected ? '' : 'ip-placeholder'}}">
+    {{(selected && selected.name) ? selected.name : placeholder}}
+  </text>
+  <text class="ip-arrow">›</text>
+</view>
+
+<view class="ip-mask {{open ? 'ip-mask-open' : ''}}" wx:if="{{open}}" bindtap="closePanel">
+  <view class="ip-sheet" catchtap="stopProp">
+    <view class="ip-sheet-header">
+      <text class="ip-sheet-back" wx:if="{{viewMode === 'subs'}}" bindtap="backToRoot">‹</text>
+      <text class="ip-sheet-back" wx:elif="{{viewMode === 'items' && currentCategory}}" bindtap="backToSubs">‹</text>
+      <text class="ip-sheet-title">
+        {{viewMode === 'root' ? '选择食材' : (viewMode === 'subs' ? currentCategory : (currentSubcategory || currentCategory))}}
+      </text>
+      <text class="ip-sheet-close" bindtap="closePanel">×</text>
+    </view>
+    <view class="ip-search">
+      <input
+        class="ip-search-input"
+        placeholder="输入名称搜索全部食材"
+        value="{{keyword || ''}}"
+        bindinput="onKeyword"
+        confirm-type="search"
+      />
+      <text class="ip-search-clear" wx:if="{{keyword}}" bindtap="clearKeyword">×</text>
+    </view>
+    <scroll-view
+      scroll-y
+      class="ip-list"
+      bindscroll="onItemsScroll"
+    >
+      <block wx:if="{{keyword}}">
+        <view class="ip-searching" wx:if="{{searching}}"><text>正在搜索...</text></view>
+        <view
+          class="ip-item {{(selected && item.id === selected.id && item.sourceType === selected.sourceType) ? 'ip-item-active' : ''}}"
+          wx:for="{{searchResults}}"
+          wx:key="uid"
+          data-id="{{item.id}}"
+          data-source-type="{{item.sourceType}}"
+          bindtap="pick"
+        >
+          <view class="ip-item-main">
+            <text class="ip-item-name">{{item.name}}</text>
+            <text class="ip-item-meta">{{item.sourceType === 'FAMILY' ? '家庭自定义' : (item.category || '系统预置')}}{{item.secondaryCategory ? ' / ' + item.secondaryCategory : ''}}</text>
+          </view>
+          <text class="ip-item-unit" wx:if="{{item.defaultUnit}}">{{item.defaultUnit}}</text>
+        </view>
+        <view class="ip-empty" wx:if="{{!searching && !searchResults.length}}">
+          <text>没找到「{{keyword}}」</text>
+        </view>
+      </block>
+
+      <block wx:elif="{{viewMode === 'root'}}">
+        <view class="ip-loading" wx:if="{{loadingTree}}"><text>加载中...</text></view>
+        <view class="ip-section" wx:if="{{familyItems.length}}">
+          <text class="ip-section-title">家庭食材</text>
+          <view
+            class="ip-item {{(selected && item.id === selected.id && item.sourceType === selected.sourceType) ? 'ip-item-active' : ''}}"
+            wx:for="{{familyItems}}"
+            wx:key="uid"
+            data-id="{{item.id}}"
+            data-source-type="{{item.sourceType}}"
+            bindtap="pick"
+          >
+            <view class="ip-item-main">
+              <text class="ip-item-name">{{item.name}}</text>
+              <text class="ip-item-meta">家庭自定义{{item.secondaryCategory ? ' / ' + item.secondaryCategory : ''}}</text>
+            </view>
+            <text class="ip-item-unit" wx:if="{{item.defaultUnit}}">{{item.defaultUnit}}</text>
+          </view>
+        </view>
+        <view class="ip-section" wx:if="{{systemCategories.length}}">
+          <text class="ip-section-title">系统分类</text>
+          <view
+            class="ip-cat"
+            wx:for="{{systemCategories}}"
+            wx:key="category"
+            data-category="{{item.category}}"
+            bindtap="chooseCategory"
+          >
+            <text class="ip-cat-name">{{item.category}}</text>
+            <text class="ip-cat-count">{{item.totalCount}} ›</text>
+          </view>
+        </view>
+        <view class="ip-empty" wx:if="{{!loadingTree && !familyItems.length && !systemCategories.length}}">
+          <text>暂无可用食材</text>
+        </view>
+      </block>
+
+      <block wx:elif="{{viewMode === 'subs'}}">
+        <view
+          class="ip-cat"
+          wx:for="{{currentSubs}}"
+          wx:key="*this"
+          data-sub="{{item.secondaryCategory}}"
+          bindtap="chooseSubcategory"
+        >
+          <text class="ip-cat-name">{{item.secondaryCategory || '其他'}}</text>
+          <text class="ip-cat-count">{{item.count}} ›</text>
+        </view>
+      </block>
+
+      <block wx:elif="{{viewMode === 'items'}}">
+        <view class="ip-loading" wx:if="{{loadingItems}}"><text>加载中...</text></view>
+        <view
+          class="ip-item {{(selected && item.id === selected.id && item.sourceType === selected.sourceType) ? 'ip-item-active' : ''}}"
+          wx:for="{{currentItems}}"
+          wx:key="uid"
+          data-id="{{item.id}}"
+          data-source-type="{{item.sourceType}}"
+          bindtap="pick"
+        >
+          <view class="ip-item-main">
+            <text class="ip-item-name">{{item.name}}</text>
+            <text class="ip-item-meta">{{item.category}}{{item.secondaryCategory ? ' / ' + item.secondaryCategory : ''}}</text>
+          </view>
+          <text class="ip-item-unit" wx:if="{{item.defaultUnit}}">{{item.defaultUnit}}</text>
+        </view>
+        <view class="ip-loading" wx:if="{{loadingMore}}"><text>加载更多...</text></view>
+        <view class="ip-empty" wx:if="{{!loadingItems && !loadingMore && !currentItems.length}}">
+          <text>该分类下暂无食材</text>
+        </view>
+      </block>
+    </scroll-view>
+  </view>
+</view>

@@ -10,6 +10,7 @@ public class CreateFamilyIngredientRequest {
     private String name;
     @NotBlank(message = "分类不能为空")
     private String category;
+    private String secondaryCategory;
     @NotBlank(message = "单位不能为空")
     private String defaultUnit;
 }

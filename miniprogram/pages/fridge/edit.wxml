@@ -11,6 +11,7 @@
         <ingredient-picker
           catalog="{{catalog}}"
           value="{{sourceId}}"
+          selected-item="{{selectedItem}}"
           bind:change="onSourceChange"
         />
       </view>

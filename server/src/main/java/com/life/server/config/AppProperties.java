@@ -181,6 +181,10 @@ public class AppProperties {
         private Boolean enabled;
         private String provider;
         private String apiKey;
+        private String endpoint;
+        private String region;
+        private String accessKeyId;
+        private String accessKeySecret;
 
         public Boolean getEnabled() {
             return enabled;
@@ -204,6 +208,38 @@ public class AppProperties {
 
         public void setApiKey(String apiKey) {
             this.apiKey = apiKey;
+        }
+
+        public String getEndpoint() {
+            return endpoint;
+        }
+
+        public void setEndpoint(String endpoint) {
+            this.endpoint = endpoint;
+        }
+
+        public String getRegion() {
+            return region;
+        }
+
+        public void setRegion(String region) {
+            this.region = region;
+        }
+
+        public String getAccessKeyId() {
+            return accessKeyId;
+        }
+
+        public void setAccessKeyId(String accessKeyId) {
+            this.accessKeyId = accessKeyId;
+        }
+
+        public String getAccessKeySecret() {
+            return accessKeySecret;
+        }
+
+        public void setAccessKeySecret(String accessKeySecret) {
+            this.accessKeySecret = accessKeySecret;
         }
     }
 

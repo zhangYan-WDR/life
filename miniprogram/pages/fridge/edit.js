@@ -8,13 +8,27 @@ function flattenCatalog(data) {
   ];
 }
 
+function toSelectedItem(item, fallbackUnit) {
+  if (!item) {
+    return null;
+  }
+  return {
+    id: item.id,
+    sourceType: item.sourceType,
+    name: item.name,
+    category: item.category,
+    secondaryCategory: item.secondaryCategory || "",
+    defaultUnit: item.defaultUnit || fallbackUnit || "",
+  };
+}
+
 Page({
   data: {
     id: null,
     catalog: [],
     sourceType: "SYSTEM",
     sourceId: null,
-    sourceIndex: 0,
+    selectedItem: null,
     quantity: "1",
     unit: "",
     producedAt: "",
@@ -37,6 +51,9 @@ Page({
   async loadCatalog() {
     const catalogData = await request({
       url: "/ingredients/catalog",
+      data: {
+        includeSystem: false,
+      },
     });
     const catalog = flattenCatalog(catalogData);
     const first = catalog[0];
@@ -45,6 +62,7 @@ Page({
       unit: this.data.unit || (first ? first.defaultUnit : ""),
       sourceId: this.data.sourceId || (first ? first.id : null),
       sourceType: this.data.sourceId ? this.data.sourceType : (first ? first.sourceType : "SYSTEM"),
+      selectedItem: this.data.selectedItem || toSelectedItem(first),
     });
   },
 
@@ -56,11 +74,16 @@ Page({
     if (!current) {
       return;
     }
-    const index = this.data.catalog.findIndex((item) => `${item.id}` === `${current.sourceId}` && item.sourceType === current.sourceType);
     this.setData({
       sourceType: current.sourceType,
       sourceId: current.sourceId,
-      sourceIndex: index >= 0 ? index : 0,
+      selectedItem: toSelectedItem({
+        id: current.sourceId,
+        sourceType: current.sourceType,
+        name: current.name,
+        category: current.category,
+        defaultUnit: current.unit,
+      }, current.unit),
       quantity: `${current.quantity}`,
       unit: current.unit,
       producedAt: current.producedAt || "",
@@ -74,13 +97,10 @@ Page({
   onSourceChange(e) {
     const selected = e.detail.item;
     if (!selected) return;
-    const index = this.data.catalog.findIndex(
-      (it) => `${it.id}` === `${selected.id}` && it.sourceType === selected.sourceType,
-    );
     this.setData({
-      sourceIndex: index >= 0 ? index : 0,
       sourceId: selected.id,
       sourceType: selected.sourceType,
+      selectedItem: toSelectedItem(selected),
       unit: selected.defaultUnit,
     });
   },
@@ -100,6 +120,10 @@ Page({
   },
 
   async saveItem() {
+    if (!this.data.sourceId) {
+      wx.showToast({ title: "请选择食材", icon: "none" });
+      return;
+    }
     const payload = {
       sourceType: this.data.sourceType,
       sourceId: this.data.sourceId,

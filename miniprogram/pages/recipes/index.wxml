@@ -24,9 +24,9 @@
       <view class="qb-icon">📷</view>
       <view class="qb-content">
         <view class="qb-title">图片识别存菜谱</view>
-        <view class="qb-text">规划中 · 先走手动添加</view>
+        <view class="qb-text">拍张菜谱图，自动预填标题和步骤</view>
       </view>
-      <view class="qb-tag">规划中</view>
+      <view class="qb-tag">识别</view>
     </view>
   </view>
 

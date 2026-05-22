@@ -1,0 +1,61 @@
+<view class="page-shell page-enter receipt-import-page">
+  <view class="hero-card">
+    <view class="hero-copy">
+      <view class="hero-title">小票识别结果</view>
+      <view class="hero-text">我们已经把小票里的候选食材拆出来了，导入前可以先改一下名称、数量和单位。</view>
+    </view>
+    <image wx:if="{{imagePath}}" class="hero-image" src="{{imagePath}}" mode="aspectFill" />
+  </view>
+
+  <view class="form-group">
+    <view class="group-header">
+      <view class="group-bar"></view>
+      <text class="group-title">待导入食材</text>
+      <text class="group-count">{{items.length}} 项</text>
+    </view>
+    <view class="item-list">
+      <view class="item-card" wx:for="{{items}}" wx:key="index">
+        <view class="item-top">
+          <view class="item-check {{item.enabled ? 'item-check-on' : ''}}" data-index="{{index}}" bindtap="toggleItem">{{item.enabled ? '✓' : ''}}</view>
+          <view class="item-index">第 {{index + 1}} 项</view>
+          <view class="item-remove" data-index="{{index}}" bindtap="removeItem">删除</view>
+        </view>
+        <view class="field">
+          <view class="field-label">名称</view>
+          <input class="field-input" value="{{item.name}}" data-index="{{index}}" data-field="name" bindinput="onItemFieldInput" />
+        </view>
+        <view class="field-row">
+          <view class="field field-half">
+            <view class="field-label">数量</view>
+            <input class="field-input" type="digit" value="{{item.quantity}}" data-index="{{index}}" data-field="quantity" bindinput="onItemFieldInput" />
+          </view>
+          <view class="field field-half">
+            <view class="field-label">单位</view>
+            <input class="field-input" value="{{item.unit}}" data-index="{{index}}" data-field="unit" bindinput="onItemFieldInput" />
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="add-btn" bindtap="addItem">＋ 再加一项</view>
+  </view>
+
+  <view class="form-group">
+    <view class="group-header">
+      <view class="group-bar"></view>
+      <text class="group-title">统一补充信息</text>
+    </view>
+    <view class="form-card">
+      <view class="field">
+        <view class="field-label">存放位置</view>
+        <input class="field-input" placeholder="例如：冷藏上层" value="{{location}}" data-field="location" bindinput="onFieldInput" />
+      </view>
+      <view class="field-divider"></view>
+      <view class="field">
+        <view class="field-label">备注</view>
+        <input class="field-input" placeholder="例如：今天超市采购" value="{{note}}" data-field="note" bindinput="onFieldInput" />
+      </view>
+    </view>
+  </view>
+
+  <button class="primary-btn save-btn" bindtap="importItems">确认导入冰箱</button>
+</view>

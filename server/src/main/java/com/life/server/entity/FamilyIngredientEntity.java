@@ -15,6 +15,7 @@ public class FamilyIngredientEntity extends BaseEntity {
     private Long familyId;
     private String name;
     private String category;
+    private String secondaryCategory;
     private String defaultUnit;
     private Boolean enabled;
 }

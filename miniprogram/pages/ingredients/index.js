@@ -3,11 +3,12 @@ import request from "../../utils/request";
 
 Page({
   data: {
-    systemIngredients: [],
     familyIngredients: [],
+    groupedSystemIngredients: [],
     form: {
       name: "",
       category: "",
+      secondaryCategory: "",
       defaultUnit: "",
     },
   },
@@ -18,12 +19,23 @@ Page({
 
   async loadCatalog() {
     try {
-      const data = await request({
-        url: "/ingredients/catalog",
-      });
+      const [catalogData, systemGroups] = await Promise.all([
+        request({
+          url: "/ingredients/catalog",
+          data: {
+            includeSystem: false,
+          },
+        }),
+        request({
+          url: "/ingredients/system-groups",
+          data: {
+            previewSize: 12,
+          },
+        }),
+      ]);
       this.setData({
-        systemIngredients: data.systemIngredients || [],
-        familyIngredients: data.familyIngredients || [],
+        familyIngredients: catalogData.familyIngredients || [],
+        groupedSystemIngredients: systemGroups || [],
       });
     } catch (error) {
       wx.showToast({ title: error.message, icon: "none" });
@@ -48,6 +60,7 @@ Page({
         form: {
           name: "",
           category: "",
+          secondaryCategory: "",
           defaultUnit: "",
         },
       });

@@ -91,6 +91,38 @@
   margin-bottom: 28rpx;
 }
 
+.system-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 18rpx;
+}
+
+.system-group-card {
+  padding: 20rpx;
+  border-radius: 24rpx;
+  background: #ffffff;
+  box-shadow: 0 6rpx 24rpx rgba(120, 80, 50, 0.05);
+}
+
+.system-group-head {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 14rpx;
+}
+
+.system-group-title {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #6a5848;
+}
+
+.system-group-count {
+  margin-left: auto;
+  font-size: 22rpx;
+  color: #a0907e;
+}
+
 .tag-grid {
   display: flex;
   flex-wrap: wrap;
@@ -129,4 +161,10 @@
   color: #a0907e;
   padding-left: 8rpx;
   border-left: 2rpx solid #d8d0c8;
+}
+
+.system-group-more {
+  margin-top: 14rpx;
+  font-size: 22rpx;
+  color: #b0a090;
 }

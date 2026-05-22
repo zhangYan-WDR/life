@@ -17,6 +17,11 @@
       </view>
       <view class="field-divider"></view>
       <view class="field">
+        <view class="field-label">二级分类</view>
+        <input class="field-input" placeholder="例如：椒类 / 啤酒 / 碳酸饮料" value="{{form.secondaryCategory}}" data-field="secondaryCategory" bindinput="onFieldInput" />
+      </view>
+      <view class="field-divider"></view>
+      <view class="field">
         <view class="field-label">默认单位</view>
         <input class="field-input" placeholder="例如：个 / 克" value="{{form.defaultUnit}}" data-field="defaultUnit" bindinput="onFieldInput" />
       </view>
@@ -34,7 +39,7 @@
     <view class="tag-grid">
       <view class="tag-capsule family-tag" wx:for="{{familyIngredients}}" wx:key="id">
         <text class="tag-name">{{item.name}}</text>
-        <text class="tag-info">{{item.defaultUnit}}</text>
+        <text class="tag-info">{{item.category}}{{item.secondaryCategory ? ' / ' + item.secondaryCategory : ''}} · {{item.defaultUnit}}</text>
       </view>
     </view>
   </view>
@@ -44,12 +49,23 @@
     <view class="group-header">
       <view class="group-bar system-bar"></view>
       <text class="group-title">系统预置</text>
-      <text class="group-count">{{systemIngredients.length}} 项</text>
+      <text class="group-count">{{groupedSystemIngredients.length}} 组</text>
     </view>
-    <view class="tag-grid">
-      <view class="tag-capsule system-tag" wx:for="{{systemIngredients}}" wx:key="id">
-        <text class="tag-name">{{item.name}}</text>
-        <text class="tag-info">{{item.defaultUnit}}</text>
+    <view class="system-groups">
+      <view class="system-group-card" wx:for="{{groupedSystemIngredients}}" wx:key="key">
+        <view class="system-group-head">
+          <view class="system-group-title">{{item.category}} / {{item.secondaryCategory}}</view>
+          <view class="system-group-count">共 {{item.count}} 项</view>
+        </view>
+        <view class="tag-grid">
+          <view class="tag-capsule system-tag" wx:for="{{item.previewItems}}" wx:key="id">
+            <text class="tag-name">{{item.name}}</text>
+            <text class="tag-info">{{item.defaultUnit}}</text>
+          </view>
+        </view>
+        <view class="system-group-more" wx:if="{{item.count > item.previewItems.length}}">
+          <text>仅展示前 {{item.previewItems.length}} 项，搜索时可查全部目录</text>
+        </view>
       </view>
     </view>
   </view>

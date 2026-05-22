@@ -1,9 +1,11 @@
 /* eslint-disable no-undef */
 import request from "../../utils/request";
+import localStorage from "../../utils/localStorage";
 
 const MAX_COVER_SIZE = 2 * 1024 * 1024;
 const ALLOWED_COVER_EXTENSIONS = ["jpg", "jpeg", "png", "webp", "gif"];
 const REFERENCE_URL_REGEXP = /(https?:\/\/[^\s]+)|(www\.[^\s]+)/i;
+const OCR_DRAFT_RECIPE_KEY = "life_recipe_import_draft";
 
 function flattenCatalog(data) {
   return [
@@ -12,14 +14,28 @@ function flattenCatalog(data) {
   ];
 }
 
-function createIngredientLine(catalog) {
-  const first = catalog[0] || {};
+function toSelectedItem(item, fallbackUnit) {
+  if (!item) {
+    return null;
+  }
   return {
-    catalogIndex: 0,
-    sourceType: first.sourceType || "SYSTEM",
-    sourceId: first.id || null,
+    id: item.id,
+    sourceType: item.sourceType,
+    name: item.name,
+    category: item.category,
+    secondaryCategory: item.secondaryCategory || "",
+    defaultUnit: item.defaultUnit || fallbackUnit || "",
+  };
+}
+
+function createIngredientLine(catalog) {
+  const first = catalog[0] || null;
+  return {
+    sourceType: first ? first.sourceType : "SYSTEM",
+    sourceId: first ? first.id : null,
+    selectedItem: toSelectedItem(first),
     quantity: "1",
-    unit: first.defaultUnit || "",
+    unit: first ? (first.defaultUnit || "") : "",
   };
 }
 
@@ -30,6 +46,8 @@ Page({
     saving: false,
     coverPreviewUrl: "",
     coverLocalPath: "",
+    recognizedIngredientNames: [],
+    recognitionRawText: "",
     form: {
       name: "",
       baseServings: "2",
@@ -53,11 +71,90 @@ Page({
       this.setData({
         "form.ingredients": [createIngredientLine(this.data.catalog)],
       });
+      await this.applyRecognitionDraft();
+    }
+  },
+
+  async applyRecognitionDraft() {
+    const draft = localStorage.getItem(OCR_DRAFT_RECIPE_KEY);
+    if (!draft) {
+      return;
+    }
+    localStorage.removeItem(OCR_DRAFT_RECIPE_KEY);
+    const recognizedIngredientNames = draft.ingredientNames || [];
+    this.setData({
+      "form.name": draft.name || "",
+      "form.instructions": draft.instructions || "",
+      "form.note": draft.note || "",
+      recognizedIngredientNames,
+      recognitionRawText: draft.rawText || "",
+    });
+    if (recognizedIngredientNames.length) {
+      await this.applyRecognizedIngredients(recognizedIngredientNames);
+    }
+  },
+
+  normalizeIngredientName(name) {
+    return (name || "").trim().replace(/\s+/g, "");
+  },
+
+  findCatalogItemByName(name) {
+    const normalized = this.normalizeIngredientName(name);
+    return (this.data.catalog || []).find((item) => this.normalizeIngredientName(item.name) === normalized) || null;
+  },
+
+  async findRemoteCatalogItemByName(name) {
+    const keyword = (name || "").trim();
+    if (!keyword) {
+      return null;
+    }
+    const response = await request({
+      url: "/ingredients/search",
+      data: {
+        keyword,
+        limit: 20,
+      },
+    });
+    const normalized = this.normalizeIngredientName(keyword);
+    return (response.items || []).find((item) => this.normalizeIngredientName(item.name) === normalized) || null;
+  },
+
+  async applyRecognizedIngredients(names) {
+    const uniqueNames = Array.from(new Set((names || []).map((item) => this.normalizeIngredientName(item)).filter(Boolean)));
+    if (!uniqueNames.length) {
+      return;
+    }
+    const ingredientLines = [];
+    for (const name of uniqueNames) {
+      let catalogItem = this.findCatalogItemByName(name);
+      if (!catalogItem) {
+        catalogItem = await this.findRemoteCatalogItemByName(name);
+      }
+      if (!catalogItem) {
+        continue;
+      }
+      ingredientLines.push({
+        sourceType: catalogItem.sourceType,
+        sourceId: catalogItem.id,
+        selectedItem: toSelectedItem(catalogItem),
+        quantity: "1",
+        unit: catalogItem.defaultUnit || "份",
+      });
+    }
+    if (ingredientLines.length) {
+      this.setData({
+        "form.ingredients": ingredientLines,
+      });
     }
   },
 
   async loadCatalog() {
-    const data = await request({ url: "/ingredients/catalog" });
+    const data = await request({
+      url: "/ingredients/catalog",
+      data: {
+        includeSystem: false,
+      },
+    });
     this.setData({
       catalog: flattenCatalog(data),
     });
@@ -67,9 +164,15 @@ Page({
     try {
       const recipe = await request({ url: `/recipes/${id}` });
       const ingredients = (recipe.ingredients || []).map((item) => ({
-        catalogIndex: Math.max(this.data.catalog.findIndex((catalogItem) => catalogItem.id === item.sourceId && catalogItem.sourceType === item.sourceType), 0),
         sourceType: item.sourceType,
         sourceId: item.sourceId,
+        selectedItem: toSelectedItem({
+          id: item.sourceId,
+          sourceType: item.sourceType,
+          name: item.name,
+          category: item.category,
+          defaultUnit: item.unit,
+        }, item.unit),
         quantity: `${item.quantity}`,
         unit: item.unit,
       }));
@@ -113,13 +216,10 @@ Page({
     if (!selected) {
       return;
     }
-    const catalogIndex = this.data.catalog.findIndex(
-      (it) => `${it.id}` === `${selected.id}` && it.sourceType === selected.sourceType,
-    );
     this.setData({
-      [`form.ingredients[${index}].catalogIndex`]: catalogIndex >= 0 ? catalogIndex : 0,
       [`form.ingredients[${index}].sourceType`]: selected.sourceType,
       [`form.ingredients[${index}].sourceId`]: selected.id,
+      [`form.ingredients[${index}].selectedItem`]: toSelectedItem(selected),
       [`form.ingredients[${index}].unit`]: selected.defaultUnit,
     });
   },
@@ -275,6 +375,10 @@ Page({
 
   async saveRecipe() {
     if (this.data.saving) {
+      return;
+    }
+    if ((this.data.form.ingredients || []).some((item) => !item.sourceId)) {
+      wx.showToast({ title: "还有食材未选择", icon: "none" });
       return;
     }
     if (this.data.form.referenceUrl && !this.extractReferenceUrl(this.data.form.referenceUrl)) {

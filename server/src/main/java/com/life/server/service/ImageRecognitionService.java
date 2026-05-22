@@ -1,8 +1,11 @@
 package com.life.server.service;
 
+import com.life.server.dto.response.RecipeImageRecognitionResponse;
+import com.life.server.dto.response.ReceiptImageRecognitionResponse;
+
 public interface ImageRecognitionService {
 
-    void analyzeReceipt();
+    ReceiptImageRecognitionResponse analyzeReceipt(byte[] imageBytes, String fileName);
 
-    void analyzeRecipeImage();
+    RecipeImageRecognitionResponse analyzeRecipeImage(byte[] imageBytes, String fileName);
 }

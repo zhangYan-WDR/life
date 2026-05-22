@@ -3,6 +3,7 @@
     "pages/index/index",
     "pages/family/index",
     "pages/home/index",
+    "pages/receipt-import/index",
     "pages/recipes/index",
     "pages/recipe-edit/index",
     "pages/recipe-detail/index",

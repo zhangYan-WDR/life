@@ -14,6 +14,7 @@ public class SystemIngredientEntity extends BaseEntity {
     private Long id;
     private String name;
     private String category;
+    private String secondaryCategory;
     private String defaultUnit;
     private Boolean enabled;
     private Integer sortOrder;

@@ -131,13 +131,13 @@
       </view>
     </view>
     <view class="quick-grid">
-      <view class="quick-card quick-plan" data-type="receipt" bindtap="showPlannedFeature">
+      <view class="quick-card quick-plan" bindtap="recognizeReceipt">
         <view class="quick-title">小票识别入冰箱</view>
-        <view class="quick-text">规划中，先走手动新增</view>
+        <view class="quick-text">拍小票，识别后批量导入库存</view>
       </view>
-      <view class="quick-card quick-plan" data-type="recipe" bindtap="showPlannedFeature">
+      <view class="quick-card quick-plan" bindtap="recognizeRecipe">
         <view class="quick-title">图片识别存菜谱</view>
-        <view class="quick-text">规划中，先走手动建菜谱</view>
+        <view class="quick-text">拍菜谱图，自动预填标题和步骤</view>
       </view>
     </view>
     <view class="subscribe-row">

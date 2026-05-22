@@ -11,9 +11,13 @@ spring:
 
 app:
   ocr:
-    enabled: false
-    provider: TODO
+    enabled: true
+    provider: aliyun
     api-key: change-me
+    endpoint: ocr-api.cn-hangzhou.aliyuncs.com
+    region: cn-hangzhou
+    access-key-id: change-me
+    access-key-secret: change-me
   oss:
     enabled: true
     endpoint: oss-cn-hangzhou.aliyuncs.com
