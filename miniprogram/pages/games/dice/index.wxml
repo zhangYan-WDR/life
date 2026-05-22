@@ -1,0 +1,57 @@
+<view class="page-shell page-enter">
+
+  <!-- 重摇提示 -->
+  <view wx:if="{{shakeCount > 1}}" class="reshake-warn">
+    已重新摇骰 {{shakeCount - 1}} 次
+  </view>
+
+  <!-- 骰子区域 -->
+  <view class="dice-area">
+    <view
+      wx:for="{{dice}}"
+      wx:key="index"
+      class="dice {{item.rolling ? 'rolling' : ''}} {{!covered && !item.rolling ? 'revealed' : ''}}"
+      style="animation-delay: {{item.animDelay}}ms"
+    >
+      <!-- 骰盅盖住时显示背面 -->
+      <view wx:if="{{covered && !item.rolling}}" class="dice-back">
+        <view class="dice-back-pattern"></view>
+      </view>
+      <!-- 点数面 -->
+      <view wx:else class="dice-face">
+        <view
+          wx:for="{{item.dots}}"
+          wx:for-item="dot"
+          wx:key="key"
+          class="dot-cell"
+        >
+          <view wx:if="{{dot.show}}" class="dot"></view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 状态提示 -->
+  <view class="status-area">
+    <view wx:if="{{rolling}}" class="status-text rolling-text">摇动中...</view>
+    <view wx:elif="{{!hasResult}}" class="status-text idle-text">摇一摇开始</view>
+    <view wx:else class="status-text ready-text">已摇好</view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="btn-row">
+    <view wx:if="{{hasResult && covered}}" class="action-btn peek-btn" bindtap="peek">
+      偷看一眼
+    </view>
+    <view wx:if="{{hasResult && !covered}}" class="action-btn cover-btn" bindtap="cover">
+      盖上
+    </view>
+    <view class="action-btn shake-btn" bindtap="manualShake">
+      {{rolling ? '摇动中...' : '摇一摇'}}
+    </view>
+  </view>
+
+  <!-- 重置 -->
+  <view wx:if="{{hasResult}}" class="reset-link" bindtap="reset">重新开始</view>
+
+</view>

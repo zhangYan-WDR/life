@@ -1,0 +1,57 @@
+<view class="page-shell page-enter">
+
+  <!-- 转盘区域 -->
+  <view class="wheel-section">
+    <!-- 指针 -->
+    <view class="pointer">▼</view>
+
+    <!-- 转盘图片（动画驱动旋转） -->
+    <view class="wheel-container" animation="{{spinAnimation}}">
+      <image wx:if="{{wheelImage}}" src="{{wheelImage}}" class="wheel-image" mode="aspectFill" />
+      <view wx:else class="wheel-placeholder">加载中...</view>
+    </view>
+
+    <!-- 隐藏的 canvas 用于绘制 -->
+    <canvas canvas-id="wheel-canvas" class="hidden-canvas" />
+  </view>
+
+  <!-- 转动按钮 -->
+  <view class="spin-btn {{spinning || members.length < 2 ? 'disabled' : ''}}" bindtap="spin">
+    {{spinning ? '转动中...' : '开始转动'}}
+  </view>
+
+  <!-- 参与者列表 -->
+  <view class="card members-card">
+    <view class="section-title">参与者</view>
+    <view class="member-list">
+      <view wx:for="{{members}}" wx:key="id" class="member-item">
+        <view class="member-dot" style="background: {{['#e07830','#c84848','#8a6850','#d4a060','#a05838','#c07048'][index % 6]}}"></view>
+        <view class="member-name">{{item.name}}</view>
+        <view class="member-remove" catchtap="removeMember" data-id="{{item.id}}">×</view>
+      </view>
+    </view>
+    <!-- 添加成员 -->
+    <view class="add-row">
+      <input
+        class="input add-input"
+        placeholder="添加参与者"
+        value="{{newName}}"
+        bindinput="onNewNameInput"
+        confirm-type="done"
+        bindconfirm="addMember"
+      />
+      <view class="add-btn" bindtap="addMember">添加</view>
+    </view>
+  </view>
+
+  <!-- 结果弹窗 -->
+  <view wx:if="{{showResult}}" class="result-overlay" bindtap="closeResult">
+    <view class="result-content" catchtap="">
+      <view class="result-emoji">🎉</view>
+      <view class="result-title">选中了</view>
+      <view class="result-name">{{winner}}</view>
+      <view class="result-close" bindtap="closeResult">知道了</view>
+    </view>
+  </view>
+
+</view>

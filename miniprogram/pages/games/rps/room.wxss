@@ -1,0 +1,175 @@
+.page-shell {
+  padding: 32rpx;
+  min-height: 100vh;
+}
+
+.loading-tip {
+  text-align: center;
+  color: #b08060;
+  font-size: 28rpx;
+  padding: 80rpx 0;
+}
+
+.phase-title {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #2d2118;
+  text-align: center;
+  margin-bottom: 48rpx;
+  margin-top: 24rpx;
+}
+
+/* 出拳阶段 */
+.gesture-grid {
+  display: flex;
+  gap: 24rpx;
+  justify-content: center;
+  margin-bottom: 48rpx;
+}
+
+.gesture-card {
+  flex: 1;
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 40rpx 16rpx;
+  text-align: center;
+  box-shadow: 0 4rpx 16rpx rgba(160, 100, 40, 0.1);
+  border: 3rpx solid transparent;
+}
+
+.gesture-card:active {
+  transform: scale(0.94);
+  border-color: #e07830;
+}
+
+.gesture-card.disabled {
+  opacity: 0.5;
+}
+
+.gesture-emoji {
+  font-size: 80rpx;
+  line-height: 1;
+  margin-bottom: 16rpx;
+}
+
+.gesture-label {
+  font-size: 28rpx;
+  color: #2d2118;
+  font-weight: 600;
+}
+
+/* 等待阶段 */
+.my-gesture-hint {
+  text-align: center;
+  font-size: 30rpx;
+  color: #8a6850;
+  margin-bottom: 40rpx;
+}
+
+.my-gesture-emoji {
+  font-size: 40rpx;
+}
+
+.participants-card {
+  padding: 8rpx 0;
+}
+
+.participant-row {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 32rpx;
+  gap: 20rpx;
+}
+
+.p-avatar, .r-avatar {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e07830, #c84848);
+  color: #fff;
+  font-size: 30rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.p-name, .r-name {
+  flex: 1;
+  font-size: 30rpx;
+  color: #2d2118;
+}
+
+.p-status {
+  font-size: 26rpx;
+  padding: 8rpx 20rpx;
+  border-radius: 24rpx;
+}
+
+.p-status.done {
+  background: #e8f5e9;
+  color: #388e3c;
+}
+
+.p-status.waiting {
+  background: #f5ede4;
+  color: #b08060;
+}
+
+/* 揭晓阶段 */
+.result-card {
+  padding: 8rpx 0;
+  margin-bottom: 48rpx;
+}
+
+.result-row {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 32rpx;
+  gap: 20rpx;
+}
+
+.r-gesture {
+  font-size: 28rpx;
+  color: #2d2118;
+  margin-right: 8rpx;
+}
+
+.r-outcome {
+  font-size: 28rpx;
+  font-weight: 700;
+  padding: 8rpx 24rpx;
+  border-radius: 24rpx;
+}
+
+.outcome-WIN {
+  background: #fff3e0;
+  color: #e07830;
+}
+
+.outcome-LOSE {
+  background: #fce4ec;
+  color: #c84848;
+}
+
+.outcome-DRAW {
+  background: #f5ede4;
+  color: #8a6850;
+}
+
+.back-btn {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  background: #f5ede4;
+  color: #8a6850;
+  font-size: 30rpx;
+  font-weight: 600;
+  border-radius: 44rpx;
+}
+
+.back-btn:active {
+  transform: scale(0.97);
+}

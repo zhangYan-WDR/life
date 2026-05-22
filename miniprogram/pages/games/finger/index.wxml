@@ -1,0 +1,38 @@
+<view
+  class="touch-area"
+  catchtouchstart="onTouchStart"
+  catchtouchmove="onTouchMove"
+  catchtouchend="onTouchEnd"
+>
+  <!-- 等待阶段提示 -->
+  <view wx:if="{{phase === 'wait'}}" class="hint-wrap">
+    <view class="hint-icon">👆</view>
+    <view class="hint-title">把手指按在屏幕上</view>
+    <view class="hint-sub">支持多人同时参与</view>
+    <view wx:if="{{fingers.length === 1}}" class="hint-sub warn">再加一根手指才能开始</view>
+  </view>
+
+  <!-- 倒计时提示 -->
+  <view wx:if="{{phase === 'countdown'}}" class="countdown-wrap">
+    <view class="countdown-num">{{countdown}}</view>
+    <view class="countdown-hint">手指不能离开！</view>
+  </view>
+
+  <!-- 结果提示 -->
+  <view wx:if="{{phase === 'result'}}" class="result-wrap">
+    <view class="result-title">随机选人</view>
+    <view class="result-sub">{{winnerNum}} 号被选中！</view>
+    <view class="reset-btn" catchtap="reset">再来一次</view>
+  </view>
+
+  <!-- 手指光圈 -->
+  <view
+    wx:for="{{fingers}}"
+    wx:key="id"
+    class="finger-ring {{item.winner ? 'ring-winner' : ''}} {{item.eliminated ? 'ring-eliminated' : ''}} {{phase === 'countdown' ? 'ring-pulse' : ''}}"
+    style="left: {{item.x}}px; top: {{item.y}}px; border-color: {{item.color}}; background: {{item.winner ? item.color : 'rgba(255,255,255,0.15)'}}"
+  >
+    <view class="finger-num" style="color: {{item.winner ? '#fff' : item.color}}">{{item.num}}</view>
+  </view>
+
+</view>

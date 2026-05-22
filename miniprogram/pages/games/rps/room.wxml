@@ -1,0 +1,69 @@
+<view class="page-shell page-enter">
+
+  <view wx:if="{{loading}}" class="loading-tip">加载中...</view>
+
+  <view wx:elif="{{status === 'OPEN' && !myGesture}}">
+    <!-- 出拳阶段 -->
+    <view class="phase-title">选择你的手势</view>
+    <view class="gesture-grid">
+      <view
+        class="gesture-card {{submitting ? 'disabled' : ''}}"
+        bindtap="submitGesture"
+        data-gesture="ROCK"
+      >
+        <view class="gesture-emoji">✊</view>
+        <view class="gesture-label">石头</view>
+      </view>
+      <view
+        class="gesture-card {{submitting ? 'disabled' : ''}}"
+        bindtap="submitGesture"
+        data-gesture="SCISSORS"
+      >
+        <view class="gesture-emoji">✌️</view>
+        <view class="gesture-label">剪刀</view>
+      </view>
+      <view
+        class="gesture-card {{submitting ? 'disabled' : ''}}"
+        bindtap="submitGesture"
+        data-gesture="PAPER"
+      >
+        <view class="gesture-emoji">🖐️</view>
+        <view class="gesture-label">布</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:elif="{{status === 'OPEN' && myGesture}}">
+    <!-- 等待阶段 -->
+    <view class="phase-title">等待其他人出拳...</view>
+    <view class="my-gesture-hint">
+      你选择了 <text class="my-gesture-emoji">{{myGesture === 'ROCK' ? '✊' : myGesture === 'SCISSORS' ? '✌️' : '🖐️'}}</text>
+    </view>
+    <view class="card participants-card">
+      <view wx:for="{{participants}}" wx:key="userId" class="participant-row">
+        <view class="p-avatar">{{item.nickname[0]}}</view>
+        <view class="p-name">{{item.nickname}}</view>
+        <view class="p-status {{item.submitted ? 'done' : 'waiting'}}">
+          {{item.submitted ? '已出拳 ✓' : '等待中...'}}
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:elif="{{status === 'REVEALED'}}">
+    <!-- 揭晓阶段 -->
+    <view class="phase-title">揭晓结果！</view>
+    <view class="card result-card">
+      <view wx:for="{{participants}}" wx:key="userId" class="result-row">
+        <view class="r-avatar">{{item.nickname[0]}}</view>
+        <view class="r-name">{{item.nickname}}</view>
+        <view class="r-gesture">{{item.gestureEmoji}} {{item.gestureLabel}}</view>
+        <view class="r-outcome outcome-{{item.outcome}}">
+          {{item.outcome === 'WIN' ? '赢' : item.outcome === 'LOSE' ? '输' : '平'}}
+        </view>
+      </view>
+    </view>
+    <view class="back-btn" bindtap="goBack">返回</view>
+  </view>
+
+</view>

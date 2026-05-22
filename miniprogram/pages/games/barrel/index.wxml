@@ -1,0 +1,78 @@
+<view class="page-shell">
+
+  <!-- 玩家卡片 -->
+  <view class="players-row">
+    <view class="player-card {{currentPlayer === 0 && !exploded ? 'active' : ''}}">
+      <view class="player-avatar">⚔️</view>
+      <view class="player-label">玩家 1</view>
+      <view class="player-turn-hint">{{currentPlayer === 0 && !exploded ? '轮到你了' : ''}}</view>
+    </view>
+    <view class="vs-text">VS</view>
+    <view class="player-card {{currentPlayer === 1 && !exploded ? 'active' : ''}}">
+      <view class="player-avatar">🗡️</view>
+      <view class="player-label">玩家 2</view>
+      <view class="player-turn-hint">{{currentPlayer === 1 && !exploded ? '轮到你了' : ''}}</view>
+    </view>
+  </view>
+
+  <!-- 海盗桶主体 -->
+  <view class="barrel-scene {{barrelShaking ? 'shaking' : ''}} {{exploded ? 'exploding' : ''}}">
+
+    <!-- 桶身 -->
+    <view class="barrel">
+      <!-- 木纹条 -->
+      <view class="plank" wx:for="{{[0,1,2,3,4,5,6]}}" wx:key="*this"></view>
+      <!-- 金属箍 -->
+      <view class="hoop hoop-top"></view>
+      <view class="hoop hoop-mid"></view>
+      <view class="hoop hoop-bot"></view>
+      <!-- 桶顶椭圆 -->
+      <view class="barrel-top"></view>
+
+      <!-- 剑孔（分布在桶身上） -->
+      <view
+        wx:for="{{holes}}"
+        wx:key="id"
+        class="sword-slot {{item.stabbed ? 'has-sword' : ''}}"
+        style="left:{{item.x}}%; top:{{item.y}}%"
+      >
+        <!-- 未插：小圆孔 -->
+        <view wx:if="{{!item.stabbed}}" class="hole-dot"></view>
+        <!-- 已插：剑 -->
+        <view wx:else class="sword {{item.explodeSword ? 'fly-out' : ''}}">
+          <view class="sword-blade"></view>
+          <view class="sword-guard"></view>
+          <view class="sword-handle"></view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 爆炸裂缝 -->
+    <view wx:if="{{exploded}}" class="crack crack-left"></view>
+    <view wx:if="{{exploded}}" class="crack crack-right"></view>
+  </view>
+
+  <!-- 剩余孔数 -->
+  <view class="remaining-hint">剩余 {{remainingHoles}} 个孔</view>
+
+  <!-- 插剑按钮 -->
+  <view
+    wx:if="{{!exploded}}"
+    class="stab-btn {{animating ? 'disabled' : ''}}"
+    bindtap="stab"
+  >
+    <view class="stab-icon">🗡️</view>
+    <view class="stab-text">插剑！</view>
+  </view>
+
+  <!-- 爆炸遮罩 -->
+  <view wx:if="{{exploded}}" class="explode-overlay">
+    <view class="explode-content">
+      <view class="explode-icon">💀</view>
+      <view class="explode-title">中招了！</view>
+      <view class="explode-loser">玩家 {{explodedPlayer + 1}} 输了</view>
+      <view class="restart-btn" bindtap="restart">再来一局</view>
+    </view>
+  </view>
+
+</view>

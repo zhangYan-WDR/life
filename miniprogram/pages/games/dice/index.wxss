@@ -1,0 +1,184 @@
+.page-shell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 48rpx 32rpx 80rpx;
+  box-sizing: border-box;
+  background: linear-gradient(155deg, #1a1008 0%, #2d1c10 50%, #3a2418 100%);
+}
+
+/* 重摇警告 */
+.reshake-warn {
+  background: rgba(200, 72, 72, 0.2);
+  border: 2rpx solid #c84848;
+  color: #ff6b6b;
+  font-size: 26rpx;
+  padding: 12rpx 32rpx;
+  border-radius: 32rpx;
+  margin-bottom: 40rpx;
+}
+
+/* 骰子区域 */
+.dice-area {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24rpx;
+  justify-content: center;
+  margin: 60rpx 0 48rpx;
+}
+
+/* 单个骰子 */
+.dice {
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 28rpx;
+  background: #fff;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.5), inset 0 2rpx 4rpx rgba(255,255,255,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.dice.rolling {
+  animation: dice-roll 0.25s ease-in-out infinite alternate;
+}
+
+.dice.revealed {
+  animation: reveal-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 骰子背面（盖住时） */
+.dice-back {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #8a6850, #6a4838);
+  border-radius: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dice-back-pattern {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  border: 4rpx solid rgba(255,255,255,0.3);
+}
+
+/* 骰子点数面 */
+.dice-face {
+  width: 110rpx;
+  height: 110rpx;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  padding: 8rpx;
+  box-sizing: border-box;
+}
+
+.dot-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dot {
+  width: 22rpx;
+  height: 22rpx;
+  border-radius: 50%;
+  background: #2d1c10;
+  box-shadow: inset 0 2rpx 4rpx rgba(0,0,0,0.3);
+}
+
+/* 状态文字 */
+.status-area {
+  margin-bottom: 48rpx;
+}
+
+.status-text {
+  font-size: 32rpx;
+  font-weight: 600;
+  text-align: center;
+}
+
+.idle-text {
+  color: rgba(255,255,255,0.4);
+}
+
+.rolling-text {
+  color: #e07830;
+  animation: blink 0.5s ease-in-out infinite alternate;
+}
+
+.ready-text {
+  color: rgba(255,255,255,0.8);
+}
+
+/* 按钮行 */
+.btn-row {
+  display: flex;
+  gap: 20rpx;
+  margin-bottom: 32rpx;
+}
+
+.action-btn {
+  height: 88rpx;
+  line-height: 88rpx;
+  padding: 0 48rpx;
+  border-radius: 44rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  text-align: center;
+}
+
+.action-btn:active {
+  transform: scale(0.95);
+}
+
+.peek-btn {
+  background: linear-gradient(135deg, #e07830, #c84848);
+  color: #fff;
+  box-shadow: 0 6rpx 20rpx rgba(200, 72, 72, 0.4);
+}
+
+.cover-btn {
+  background: rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.8);
+  border: 2rpx solid rgba(255,255,255,0.2);
+}
+
+.shake-btn {
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.6);
+  border: 2rpx solid rgba(255,255,255,0.15);
+}
+
+/* 重置链接 */
+.reset-link {
+  font-size: 26rpx;
+  color: rgba(255,255,255,0.3);
+  text-decoration: underline;
+}
+
+.reset-link:active {
+  color: rgba(255,255,255,0.6);
+}
+
+/* 动画 */
+@keyframes dice-roll {
+  0%   { transform: rotate(-8deg) scale(0.95); }
+  100% { transform: rotate(8deg) scale(1.05); }
+}
+
+@keyframes reveal-pop {
+  0%   { transform: scale(0.8) rotateY(90deg); opacity: 0.5; }
+  100% { transform: scale(1) rotateY(0deg); opacity: 1; }
+}
+
+@keyframes blink {
+  0%   { opacity: 0.5; }
+  100% { opacity: 1; }
+}

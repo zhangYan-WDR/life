@@ -1,0 +1,26 @@
+<view class="page-shell page-enter">
+
+  <view wx:if="{{loading}}" class="loading-tip">加载中...</view>
+
+  <view wx:else>
+    <view class="section-title">选择参与者</view>
+    <view class="card members-card">
+      <view
+        wx:for="{{members}}"
+        wx:key="userId"
+        class="member-row {{selected[item.userId] ? 'checked' : ''}}"
+        bindtap="toggleMember"
+        data-id="{{item.userId}}"
+      >
+        <view class="member-avatar">{{item.nickname[0]}}</view>
+        <view class="member-name">{{item.nickname}}</view>
+        <view class="check-icon">{{selected[item.userId] ? '✓' : ''}}</view>
+      </view>
+    </view>
+
+    <view class="start-btn {{creating ? 'disabled' : ''}}" bindtap="startGame">
+      {{creating ? '创建中...' : '发起一局'}}
+    </view>
+  </view>
+
+</view>
