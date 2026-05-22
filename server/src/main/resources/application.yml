@@ -20,11 +20,18 @@ spring:
     init:
       mode: never
       schema-locations: classpath:schema.sql
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 12MB
 
 server:
   port: 8080
   servlet:
     context-path: /api
+  tomcat:
+    max-http-form-post-size: 20MB
+    max-swallow-size: 20MB
 
 mybatis-plus:
   configuration:

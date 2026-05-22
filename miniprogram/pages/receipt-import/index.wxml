@@ -34,6 +34,20 @@
             <input class="field-input" value="{{item.unit}}" data-index="{{index}}" data-field="unit" bindinput="onItemFieldInput" />
           </view>
         </view>
+        <view class="field">
+          <view class="field-label">保质期（可不填）</view>
+          <view class="expires-row">
+            <picker mode="date" start="{{today}}" value="{{item.expiresAt}}" data-index="{{index}}" bindchange="onItemExpiresChange">
+              <view class="expires-value {{item.expiresAt ? '' : 'expires-empty'}}">{{item.expiresAt || '未设置'}}</view>
+            </picker>
+            <view wx:if="{{item.expiresAt}}" class="expires-clear" data-index="{{index}}" bindtap="clearItemExpires">清除</view>
+          </view>
+          <view class="quick-row">
+            <view class="quick-chip" data-index="{{index}}" data-days="3" bindtap="setItemExpiresQuick">3天</view>
+            <view class="quick-chip" data-index="{{index}}" data-days="7" bindtap="setItemExpiresQuick">7天</view>
+            <view class="quick-chip" data-index="{{index}}" data-days="30" bindtap="setItemExpiresQuick">30天</view>
+          </view>
+        </view>
       </view>
     </view>
     <view class="add-btn" bindtap="addItem">＋ 再加一项</view>
@@ -53,6 +67,22 @@
       <view class="field">
         <view class="field-label">备注</view>
         <input class="field-input" placeholder="例如：今天超市采购" value="{{note}}" data-field="note" bindinput="onFieldInput" />
+      </view>
+      <view class="field-divider"></view>
+      <view class="field">
+        <view class="field-label">统一保质期（应用到未单独设置的项目）</view>
+        <view class="expires-row">
+          <picker mode="date" start="{{today}}" value="{{bulkExpiresAt}}" bindchange="onBulkExpiresChange">
+            <view class="expires-value {{bulkExpiresAt ? '' : 'expires-empty'}}">{{bulkExpiresAt || '未设置'}}</view>
+          </picker>
+          <view wx:if="{{bulkExpiresAt}}" class="expires-clear" bindtap="clearBulkExpires">清除</view>
+        </view>
+        <view class="quick-row">
+          <view class="quick-chip" data-days="3" bindtap="setBulkExpiresQuick">3天</view>
+          <view class="quick-chip" data-days="7" bindtap="setBulkExpiresQuick">7天</view>
+          <view class="quick-chip" data-days="30" bindtap="setBulkExpiresQuick">30天</view>
+          <view class="quick-chip quick-apply" bindtap="applyBulkExpires">应用到全部</view>
+        </view>
       </view>
     </view>
   </view>

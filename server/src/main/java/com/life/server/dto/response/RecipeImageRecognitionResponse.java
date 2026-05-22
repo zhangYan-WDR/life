@@ -12,6 +12,7 @@ public class RecipeImageRecognitionResponse {
     private String instructions;
     private String note;
     private List<String> ingredientNames;
+    private List<RecognizedIngredientResponse> ingredients;
     private String rawText;
     private List<String> lines;
 }

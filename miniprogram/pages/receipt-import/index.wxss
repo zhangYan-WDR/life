@@ -166,3 +166,53 @@
 .save-btn {
   margin-top: 28rpx;
 }
+
+.expires-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.expires-value {
+  flex: 1;
+  height: 78rpx;
+  padding: 0 22rpx;
+  box-sizing: border-box;
+  border-radius: 16rpx;
+  background: #faf7f3;
+  font-size: 28rpx;
+  color: #2d2118;
+  line-height: 78rpx;
+}
+
+.expires-empty {
+  color: #b6a89a;
+}
+
+.expires-clear {
+  font-size: 24rpx;
+  color: #c16d53;
+  padding: 0 12rpx;
+}
+
+.quick-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14rpx;
+  margin-top: 14rpx;
+}
+
+.quick-chip {
+  padding: 10rpx 22rpx;
+  border-radius: 100rpx;
+  background: rgba(232, 132, 90, 0.1);
+  color: #c96232;
+  font-size: 24rpx;
+  border: 2rpx solid rgba(211, 109, 58, 0.25);
+}
+
+.quick-apply {
+  background: #d36d3a;
+  color: #fff;
+  border-color: #d36d3a;
+}

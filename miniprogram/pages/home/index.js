@@ -5,6 +5,28 @@ import localStorage from "../../utils/localStorage";
 const OCR_DRAFT_RECEIPT_KEY = "life_receipt_import_draft";
 const OCR_DRAFT_RECIPE_KEY = "life_recipe_import_draft";
 
+function cleanErrorMessage(raw) {
+  if (!raw) return "识别失败";
+  let msg = String(raw);
+  const semi = msg.indexOf("; nested exception");
+  if (semi > 0) msg = msg.substring(0, semi);
+  msg = msg.replace(/[a-z]+(?:\.[a-zA-Z_$][\w$]*)+(?:Exception|Error)\s*:?\s*/g, "");
+  msg = msg.trim();
+  if (/maximum.*size/i.test(msg) || /exceeds.*permitted size/i.test(msg)) {
+    return "图片太大了，请压缩到 10MB 以内后再试";
+  }
+  return msg.length > 120 ? msg.substring(0, 120) + "..." : msg;
+}
+
+function showErrorAlert(message) {
+  wx.showModal({
+    title: "操作失败",
+    content: message || "服务异常，请稍后再试",
+    showCancel: false,
+    confirmText: "我知道了",
+  });
+}
+
 Page({
   data: {
     family: null,
@@ -164,26 +186,44 @@ Page({
       const token = localStorage.getItem("life_token");
       const app = getApp();
       const baseUrl = app.globalData.baseUrl || "http://127.0.0.1:8080/api";
-      wx.uploadFile({
-        url: `${baseUrl}${url}`,
-        filePath,
-        name: "file",
-        header: {
-          Authorization: `Bearer ${token || ""}`,
-        },
-        success: (res) => {
-          try {
-            const payload = JSON.parse(res.data || "{}");
-            if (payload.success) {
-              resolve(payload.data);
-              return;
+      const doUpload = (path) => {
+        wx.uploadFile({
+          url: `${baseUrl}${url}`,
+          filePath: path,
+          name: "file",
+          header: {
+            Authorization: `Bearer ${token || ""}`,
+          },
+          success: (res) => {
+            try {
+              const payload = JSON.parse(res.data || "{}");
+              if (payload.success) {
+                resolve(payload.data);
+                return;
+              }
+              const rawMsg = payload.message || "识别失败";
+              console.error("[upload] server error", res.statusCode, rawMsg);
+              reject(new Error(cleanErrorMessage(rawMsg)));
+            } catch (error) {
+              console.error("[upload] parse error", res.statusCode, res.data);
+              if (res.statusCode && res.statusCode >= 400) {
+                reject(new Error(`服务异常 (${res.statusCode})，请稍后再试`));
+                return;
+              }
+              reject(new Error("识别结果解析失败"));
             }
-            reject(new Error(payload.message || "识别失败"));
-          } catch (error) {
-            reject(new Error("识别结果解析失败"));
-          }
-        },
-        fail: reject,
+          },
+          fail: (err) => {
+            console.error("[upload] network fail", err);
+            reject(new Error((err && err.errMsg) || "网络异常"));
+          },
+        });
+      };
+      wx.compressImage({
+        src: filePath,
+        quality: 90,
+        success: (res) => doUpload(res.tempFilePath || filePath),
+        fail: () => doUpload(filePath),
       });
     });
   },
@@ -210,7 +250,8 @@ Page({
       if (error && error.errMsg && error.errMsg.indexOf("cancel") >= 0) {
         return;
       }
-      wx.showToast({ title: error.message || "识别失败", icon: "none" });
+      console.error("[recognizeReceipt] failed", error);
+      showErrorAlert(error.message || "识别失败");
     }
   },
 
@@ -236,7 +277,8 @@ Page({
       if (error && error.errMsg && error.errMsg.indexOf("cancel") >= 0) {
         return;
       }
-      wx.showToast({ title: error.message || "识别失败", icon: "none" });
+      console.error("[recognizeRecipe] failed", error);
+      showErrorAlert(error.message || "识别失败");
     }
   },
 

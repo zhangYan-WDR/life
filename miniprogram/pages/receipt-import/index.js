@@ -4,6 +4,21 @@ import localStorage from "../../utils/localStorage";
 
 const OCR_DRAFT_RECEIPT_KEY = "life_receipt_import_draft";
 
+function pad2(n) {
+  return n < 10 ? `0${n}` : String(n);
+}
+
+function todayStr() {
+  const d = new Date();
+  return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+}
+
+function addDaysStr(days) {
+  const d = new Date();
+  d.setDate(d.getDate() + Number(days || 0));
+  return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+}
+
 Page({
   data: {
     imagePath: "",
@@ -11,7 +26,9 @@ Page({
     rawText: "",
     location: "",
     note: "",
+    bulkExpiresAt: "",
     saving: false,
+    today: todayStr(),
   },
 
   onLoad() {
@@ -28,6 +45,7 @@ Page({
         name: item.name || "",
         quantity: item.quantity || "1",
         unit: item.unit || "份",
+        expiresAt: "",
         enabled: true,
       })),
     });
@@ -55,12 +73,62 @@ Page({
     });
   },
 
+  onItemExpiresChange(e) {
+    const index = Number(e.currentTarget.dataset.index);
+    this.setData({
+      [`items[${index}].expiresAt`]: e.detail.value,
+    });
+  },
+
+  setItemExpiresQuick(e) {
+    const index = Number(e.currentTarget.dataset.index);
+    const days = Number(e.currentTarget.dataset.days);
+    this.setData({
+      [`items[${index}].expiresAt`]: addDaysStr(days),
+    });
+  },
+
+  clearItemExpires(e) {
+    const index = Number(e.currentTarget.dataset.index);
+    this.setData({
+      [`items[${index}].expiresAt`]: "",
+    });
+  },
+
+  onBulkExpiresChange(e) {
+    this.setData({ bulkExpiresAt: e.detail.value });
+  },
+
+  setBulkExpiresQuick(e) {
+    const days = Number(e.currentTarget.dataset.days);
+    this.setData({ bulkExpiresAt: addDaysStr(days) });
+  },
+
+  clearBulkExpires() {
+    this.setData({ bulkExpiresAt: "" });
+  },
+
+  applyBulkExpires() {
+    const bulk = this.data.bulkExpiresAt;
+    if (!bulk) {
+      wx.showToast({ title: "请先选择统一保质期", icon: "none" });
+      return;
+    }
+    const items = (this.data.items || []).map((item) => {
+      if (item.expiresAt) return item;
+      return { ...item, expiresAt: bulk };
+    });
+    this.setData({ items });
+    wx.showToast({ title: "已应用到未设置的项目", icon: "success" });
+  },
+
   addItem() {
     this.setData({
       items: (this.data.items || []).concat([{
         name: "",
         quantity: "1",
         unit: "份",
+        expiresAt: "",
         enabled: true,
       }]),
     });
@@ -95,7 +163,7 @@ Page({
             quantity: Number(item.quantity || 1),
             unit: item.unit || "份",
             producedAt: null,
-            expiresAt: null,
+            expiresAt: item.expiresAt || null,
             location: this.data.location,
             note: this.data.note,
           },

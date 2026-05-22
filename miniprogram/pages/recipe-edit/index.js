@@ -81,7 +81,10 @@ Page({
       return;
     }
     localStorage.removeItem(OCR_DRAFT_RECIPE_KEY);
-    const recognizedIngredientNames = draft.ingredientNames || [];
+    const recognizedIngredients = Array.isArray(draft.ingredients) && draft.ingredients.length
+      ? draft.ingredients
+      : (draft.ingredientNames || []).map((name) => ({ name, quantity: "1", unit: "" }));
+    const recognizedIngredientNames = recognizedIngredients.map((it) => it.name).filter(Boolean);
     this.setData({
       "form.name": draft.name || "",
       "form.instructions": draft.instructions || "",
@@ -89,8 +92,8 @@ Page({
       recognizedIngredientNames,
       recognitionRawText: draft.rawText || "",
     });
-    if (recognizedIngredientNames.length) {
-      await this.applyRecognizedIngredients(recognizedIngredientNames);
+    if (recognizedIngredients.length) {
+      await this.applyRecognizedIngredients(recognizedIngredients);
     }
   },
 
@@ -119,16 +122,27 @@ Page({
     return (response.items || []).find((item) => this.normalizeIngredientName(item.name) === normalized) || null;
   },
 
-  async applyRecognizedIngredients(names) {
-    const uniqueNames = Array.from(new Set((names || []).map((item) => this.normalizeIngredientName(item)).filter(Boolean)));
-    if (!uniqueNames.length) {
+  async applyRecognizedIngredients(items) {
+    const seen = new Set();
+    const normalized = [];
+    (items || []).forEach((raw) => {
+      const name = this.normalizeIngredientName(raw && raw.name);
+      if (!name || seen.has(name)) return;
+      seen.add(name);
+      normalized.push({
+        name,
+        quantity: raw && raw.quantity ? `${raw.quantity}` : "1",
+        unit: (raw && raw.unit) || "",
+      });
+    });
+    if (!normalized.length) {
       return;
     }
     const ingredientLines = [];
-    for (const name of uniqueNames) {
-      let catalogItem = this.findCatalogItemByName(name);
+    for (const item of normalized) {
+      let catalogItem = this.findCatalogItemByName(item.name);
       if (!catalogItem) {
-        catalogItem = await this.findRemoteCatalogItemByName(name);
+        catalogItem = await this.findRemoteCatalogItemByName(item.name);
       }
       if (!catalogItem) {
         continue;
@@ -137,8 +151,8 @@ Page({
         sourceType: catalogItem.sourceType,
         sourceId: catalogItem.id,
         selectedItem: toSelectedItem(catalogItem),
-        quantity: "1",
-        unit: catalogItem.defaultUnit || "份",
+        quantity: item.quantity || "1",
+        unit: item.unit || catalogItem.defaultUnit || "份",
       });
     }
     if (ingredientLines.length) {
